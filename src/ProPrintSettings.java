@@ -214,7 +214,7 @@ public class ProPrintSettings {
             }
             case 28-> { // RED3
                 nst.bgColor = "red"; nst.mainColor = "black"; nst.frameColor = "black";
-                nst.align = "center";  nst.frameSymbol = " "; nst.inWeight = 3;
+                nst.align = "center";  nst.frameSymbol = "|"; nst.inWeight = 3;
             }
             case 29 -> { // GREEN3B Without Frame
                 nst.bgColor = "green"; nst.mainColor = "black"; nst.frameColor = "black";
@@ -223,7 +223,7 @@ public class ProPrintSettings {
 
         }
 
-       // st = nst;
+        //st = nst;
     }
 
 }
