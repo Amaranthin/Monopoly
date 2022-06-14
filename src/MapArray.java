@@ -81,7 +81,7 @@ public class MapArray {
         c = 2; //COLUMN 2
         mapStyle[1][c] = NAVY21; mapText[1][c] = "";
         mapStyle[2][c] = NAVY21; mapText[2][c] = "";
-        mapStyle[3][c] = NAVY21; mapText[3][c] = ">>> START >>>";
+        mapStyle[3][c] = NAVY21; mapText[3][c] = ">>> —“¿–“ >>>  ";
         mapStyle[4][c] = NAVY21; mapText[4][c] = ""; //dynamic
         mapStyle[5][c] = NAVY21; mapText[5][c] = "";
 
@@ -310,7 +310,7 @@ public class MapArray {
         c = 8; //COLUMN 8
         mapStyle[1][c] = BLUE21 ; mapText[1][c] = "";
         mapStyle[2][c] = BLUE21; mapText[2][c] = "";
-        mapStyle[3][c] = BLUE21; mapText[3][c] = "œŒÀ»÷»ﬂ";
+        mapStyle[3][c] = BLUE21; mapText[3][c] = "  œŒÀ»÷»ﬂ";
         mapStyle[4][c] = BLUE21; mapText[4][c] = ""; //dynamic
         mapStyle[5][c] = BLUE21; mapText[5][c] = "";
 
@@ -340,8 +340,8 @@ public class MapArray {
         mapStyle[25][c] = BLACK21; mapText[25][c] = "";
 
         mapStyle[26][c] = GREEN21; mapText[26][c] = "";
-        mapStyle[27][c] = GREEN21; mapText[27][c] = "¡Œ–»—Œ¬¿";
-        mapStyle[28][c] = GREEN21; mapText[28][c] = "√–¿ƒ»Õ¿";
+        mapStyle[27][c] = GREEN21; mapText[27][c] = "  ¡Œ–»—Œ¬¿";
+        mapStyle[28][c] = GREEN21; mapText[28][c] = "  √–¿ƒ»Õ¿";
         mapStyle[29][c] = GREEN21; mapText[29][c] = ""; //dynamic
         mapStyle[30][c] = GREEN21; mapText[30][c] = "";
 
