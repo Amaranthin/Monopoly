@@ -138,7 +138,7 @@ public class ProPrintSettings {
             }
             case 9-> { // CYAN21
                 nst.bgColor = "cyan"; nst.mainColor = "black"; nst.frameColor = "black";
-                nst.align = "center";  nst.frameSymbol = "|"; nst.inWeight = 21;
+                nst.align = "center";  nst.frameSymbol = " "; nst.inWeight = 21;
             }
             case 10-> { // JAIL21
                 nst.bgColor = "black"; nst.mainColor = "red"; nst.frameColor = "white";
@@ -201,7 +201,7 @@ public class ProPrintSettings {
                 nst.align = "right";  nst.frameSymbol = " "; nst.inWeight = 21;
             }
             case 25-> { //WINNER63
-                nst.bgColor = "black"; nst.mainColor = "red"; nst.frameColor = "black";
+                nst.bgColor = "black"; nst.mainColor = "normal"; nst.frameColor = "black";
                 nst.align = "center";  nst.frameSymbol = " "; nst.inWeight = 63;
             }
             case 26-> { //BLACK21LN за закупените обекти
@@ -220,8 +220,34 @@ public class ProPrintSettings {
                 nst.bgColor = "green"; nst.mainColor = "black"; nst.frameColor = "black";
                 nst.align = "center";  nst.frameSymbol = " "; nst.inWeight = 3;
             }
+            case 30 -> { // PLAYER1_3
+                nst.bgColor = "black"; nst.mainColor = "normal"; nst.frameColor = "black";
+                nst.align = "center";  nst.frameSymbol = " "; nst.inWeight = 3;
+            }
+            case 31 -> { // PLAYER2_3
+                nst.bgColor = "black"; nst.mainColor = "pink"; nst.frameColor = "black";
+                nst.align = "center";  nst.frameSymbol = " "; nst.inWeight = 3;
+            }
+            case 32 -> { // PLAYER3_3
+                nst.bgColor = "black"; nst.mainColor = "green"; nst.frameColor = "black";
+                nst.align = "center";  nst.frameSymbol = " "; nst.inWeight = 3;
+            }
+
+            case 33 -> { // PLAYER1_21L
+                nst.bgColor = "black"; nst.mainColor = "normal"; nst.frameColor = "black";
+                nst.align = "left";  nst.frameSymbol = " "; nst.inWeight = 21;
+            }
+            case 34 -> { // PLAYER2_21L
+                nst.bgColor = "black"; nst.mainColor = "pink"; nst.frameColor = "black";
+                nst.align = "left";  nst.frameSymbol = " "; nst.inWeight = 21;
+            }
+            case 35 -> { // PLAYER3_21L
+                nst.bgColor = "black"; nst.mainColor = "green"; nst.frameColor = "black";
+                nst.align = "left";  nst.frameSymbol = " "; nst.inWeight = 21;
+            }
 
         }
+
 
         //st = nst;
     }

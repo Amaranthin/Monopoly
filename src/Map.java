@@ -24,5 +24,12 @@ public class Map {
     21  Global Services         /Компании
     22  Building Corporation    /Компании
     23  Енергоснабдяване
+
                                                     */
+    //май няма да стане с инстанции на клас
+    //public static int row;
+   // public static int col; todo
+
+
+
 }
