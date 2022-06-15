@@ -1,7 +1,7 @@
 public class MapArray {
 
     // PRO PRINT STYLES  (For more info look at Monopoly.xls > enumStyles)
-    public	static	int	NAVY3	=	1;
+    public	static	int	BLUE3	=	1;
     public	static	int	YELLOW3	=	2;
     public	static	int	GREEN3	=	3;
     public	static	int	CYAN3	=	4;
@@ -44,13 +44,16 @@ public class MapArray {
 
     public static void initializeMapValues()
     {
+        //When mapText begin with # - this will show players on field
+        //When mapText begin with @ - this will show build from array @1@5 > build 5 from player 1 list
+
         int c=1;
         // COLUMN 1
-        mapStyle[1][1] = NAVY3; mapText[1][1] = "";
-        mapStyle[2][1] = NAVY3; mapText[2][1] = "";
-        mapStyle[3][1] = NAVY3; mapText[3][1] = "";
-        mapStyle[4][1] = NAVY3; mapText[4][1] = "";
-        mapStyle[5][1] = NAVY3; mapText[5][1] = "";
+        mapStyle[1][1] = BLUE3; mapText[1][1] = "";
+        mapStyle[2][1] = BLUE3; mapText[2][1] = "";
+        mapStyle[3][1] = BLUE3; mapText[3][1] = "";
+        mapStyle[4][1] = BLUE3; mapText[4][1] = "";
+        mapStyle[5][1] = BLUE3; mapText[5][1] = "";
 
         mapStyle[6][1] = YELLOW3; mapText[6][1] = "E";
         mapStyle[7][1] = YELLOW3; mapText[7][1] = "O";
@@ -77,19 +80,19 @@ public class MapArray {
         mapStyle[24][1] = CYAN3; mapText[24][1] = " ";
         mapStyle[25][1] = CYAN3; mapText[25][1] = " ";
 
-        mapStyle[26][1] = NAVY3; mapText[26][1] = "";
-        mapStyle[27][1] = NAVY3; mapText[27][1] = "";
-        mapStyle[28][1] = NAVY3; mapText[28][1] = "";
-        mapStyle[29][1] = NAVY3; mapText[29][1] = "";
-        mapStyle[30][1] = NAVY3; mapText[30][1] = "";
+        mapStyle[26][1] = BLUE3; mapText[26][1] = "";
+        mapStyle[27][1] = BLUE3; mapText[27][1] = "";
+        mapStyle[28][1] = BLUE3; mapText[28][1] = "";
+        mapStyle[29][1] = BLUE3; mapText[29][1] = "";
+        mapStyle[30][1] = BLUE3; mapText[30][1] = "";
 
 
         c = 2; //COLUMN 2
-        mapStyle[1][c] = NAVY21; mapText[1][c] = "";
-        mapStyle[2][c] = NAVY21; mapText[2][c] = "";
-        mapStyle[3][c] = NAVY21; mapText[3][c] = ">>> —“¿–“ >>>  ";
-        mapStyle[4][c] = NAVY21; mapText[4][c] = "";
-        mapStyle[5][c] = NAVY21; mapText[5][c] = "";
+        mapStyle[1][c] = BLUE21; mapText[1][c] = "";
+        mapStyle[2][c] = BLUE21; mapText[2][c] = "";
+        mapStyle[3][c] = BLUE21; mapText[3][c] = ">>> —“¿–“ >>>  ";
+        mapStyle[4][c] = BLUE21; mapText[4][c] = "";
+        mapStyle[5][c] = BLUE21; mapText[5][c] = "";
 
         mapStyle[6][c] = YELLOW21; mapText[6][c] = "EON (23)";
         mapStyle[7][c] = YELLOW21; mapText[7][c] = "* tax";
@@ -117,7 +120,7 @@ public class MapArray {
         mapStyle[25][c] = CYAN21; mapText[25][c] = "";
 
         mapStyle[26][c] = JAIL21; mapText[26][c] = "";
-        mapStyle[27][c] = JAIL21; mapText[27][c] = "«¿“¬Œ–";
+        mapStyle[27][c] = JAIL21; mapText[27][c] = "«¿“¬Œ– (18)";
         mapStyle[28][c] = JAIL21; mapText[28][c] = "";
         mapStyle[29][c] = JAIL21; mapText[29][c] = "";
         mapStyle[30][c] = JAIL21; mapText[30][c] = "";
@@ -156,7 +159,7 @@ public class MapArray {
         mapStyle[25][c] = BLACK21L; mapText[25][c] = "|";
 
         mapStyle[26][c] = RED21; mapText[26][c] = "";
-        mapStyle[27][c] = RED21; mapText[27][c] = "¡ŒÀÕ»÷¿";
+        mapStyle[27][c] = RED21; mapText[27][c] = "¡ŒÀÕ»÷¿ (17)";
         mapStyle[28][c] = RED21; mapText[28][c] = "";
         mapStyle[29][c] = RED21; mapText[29][c] = "";
         mapStyle[30][c] = RED21; mapText[30][c] = "";
@@ -178,15 +181,15 @@ public class MapArray {
         mapStyle[12][c] = PLAYER1_21L; mapText[12][c] = "2000 Î‚";
         mapStyle[13][c] = PLAYER1_21L; mapText[13][c] = "==============";
 
-        mapStyle[14][c] = PLAYER1_21L; mapText[14][c] = "";
-        mapStyle[15][c] = PLAYER1_21L; mapText[15][c] = "";
-        mapStyle[16][c] = PLAYER1_21L; mapText[16][c] = "";
-        mapStyle[17][c] = PLAYER1_21L; mapText[17][c] = "";
+        mapStyle[14][c] = PLAYER1_21L; mapText[14][c] = "@1.1"; //call to function with this parameter
+        mapStyle[15][c] = PLAYER1_21L; mapText[15][c] = "@1.2";
+        mapStyle[16][c] = PLAYER1_21L; mapText[16][c] = "@1.3";
+        mapStyle[17][c] = PLAYER1_21L; mapText[17][c] = "@1.4";
 
-        mapStyle[18][c] = PLAYER1_21L; mapText[18][c] = "";
-        mapStyle[19][c] = PLAYER1_21L; mapText[19][c] = "";
-        mapStyle[20][c] = PLAYER1_21L; mapText[20][c] = "";
-        mapStyle[21][c] = PLAYER1_21L; mapText[21][c] = "";
+        mapStyle[18][c] = PLAYER1_21L; mapText[18][c] = "@1.5";
+        mapStyle[19][c] = PLAYER1_21L; mapText[19][c] = "@1.6";
+        mapStyle[20][c] = PLAYER1_21L; mapText[20][c] = "@1.7";
+        mapStyle[21][c] = PLAYER1_21L; mapText[21][c] = "@1.8";
 
         mapStyle[22][c] = BLACK21L; mapText[22][c] = "";
         mapStyle[23][c] = WINNER63; mapText[23][c] = "»ÌÙÎ‡ˆËˇ: “ÓÍ: 0%  ¬Ó‰‡: 0%  ’‡Ì‡: 0% "; //Field Inflation
@@ -194,7 +197,7 @@ public class MapArray {
         mapStyle[25][c] = BLACK21L; mapText[25][c] = "";
 
         mapStyle[26][c] = BLACK21; mapText[26][c] = "";
-        mapStyle[27][c] = BLACK21; mapText[27][c] = "ÿ¿Õ—";
+        mapStyle[27][c] = BLACK21; mapText[27][c] = "ÿ¿Õ— (16)";
         mapStyle[28][c] = BLACK21; mapText[28][c] = "";
         mapStyle[29][c] = BLACK21; mapText[29][c] = "";
         mapStyle[30][c] = BLACK21; mapText[30][c] = "";
@@ -216,26 +219,26 @@ public class MapArray {
         mapStyle[12][c] = PLAYER2_21L; mapText[12][c] = "2000 Î‚";
         mapStyle[13][c] = PLAYER2_21L; mapText[13][c] = "==============";
 
-        mapStyle[14][c] = PLAYER2_21L; mapText[14][c] = "";
-        mapStyle[15][c] = PLAYER2_21L; mapText[15][c] = "";
-        mapStyle[16][c] = PLAYER2_21L; mapText[16][c] = "";
-        mapStyle[17][c] = PLAYER2_21L; mapText[17][c] = "";
+        mapStyle[14][c] = PLAYER2_21L; mapText[14][c] = "@2.1";
+        mapStyle[15][c] = PLAYER2_21L; mapText[15][c] = "@2.2";
+        mapStyle[16][c] = PLAYER2_21L; mapText[16][c] = "@2.3";
+        mapStyle[17][c] = PLAYER2_21L; mapText[17][c] = "@2.4";
 
-        mapStyle[18][c] = PLAYER2_21L; mapText[18][c] = "";
-        mapStyle[19][c] = PLAYER2_21L; mapText[19][c] = "";
-        mapStyle[20][c] = PLAYER2_21L; mapText[20][c] = "";
-        mapStyle[21][c] = PLAYER2_21L; mapText[21][c] = "";
+        mapStyle[18][c] = PLAYER2_21L; mapText[18][c] = "@2.5";
+        mapStyle[19][c] = PLAYER2_21L; mapText[19][c] = "@2.5";
+        mapStyle[20][c] = PLAYER2_21L; mapText[20][c] = "@2.7";
+        mapStyle[21][c] = PLAYER2_21L; mapText[21][c] = "@2.8";
 
-        mapStyle[22][c] = BLACK21L; mapText[22][c] = "";
+        mapStyle[22][c] = BLACK21; mapText[22][c] = "=== »Õ‘À¿÷»ﬂ ===";
         mapStyle[23][c] = MERGEDCELL; mapText[23][c] = "";
         mapStyle[24][c] = MERGEDCELL; mapText[24][c] = "";
         mapStyle[25][c] = BLACK21L; mapText[25][c] = "";
 
-        mapStyle[26][c] = NAVY21; mapText[26][c] = "";
-        mapStyle[27][c] = NAVY21; mapText[27][c] = "À≈“»Ÿ≈";
-        mapStyle[28][c] = NAVY21; mapText[28][c] = "* tax";
-        mapStyle[29][c] = NAVY21; mapText[29][c] = "";
-        mapStyle[30][c] = NAVY21; mapText[30][c] = "“–¿Õ—œŒ–“";
+        mapStyle[26][c] = BLUE21; mapText[26][c] = "";
+        mapStyle[27][c] = BLUE21; mapText[27][c] = "À≈“»Ÿ≈ (15)";
+        mapStyle[28][c] = BLUE21; mapText[28][c] = "* tax";
+        mapStyle[29][c] = BLUE21; mapText[29][c] = "";
+        mapStyle[30][c] = BLUE21; mapText[30][c] = "“–¿Õ—œŒ–“";
 
         c = 6; //COLUMN 6
         mapStyle[1][c] = ORANGE21R; mapText[1][c] = "’–¿Õ»";
@@ -254,15 +257,15 @@ public class MapArray {
         mapStyle[12][c] = PLAYER3_21L; mapText[12][c] = "2000 Î‚";
         mapStyle[13][c] = PLAYER3_21L; mapText[13][c] = "==============";
 
-        mapStyle[14][c] = PLAYER3_21L; mapText[14][c] = "";
-        mapStyle[15][c] = PLAYER3_21L; mapText[15][c] = "";
-        mapStyle[16][c] = PLAYER3_21L; mapText[16][c] = "";
-        mapStyle[17][c] = PLAYER3_21L; mapText[17][c] = "";
+        mapStyle[14][c] = PLAYER3_21L; mapText[14][c] = "@3.1";
+        mapStyle[15][c] = PLAYER3_21L; mapText[15][c] = "@3.2";
+        mapStyle[16][c] = PLAYER3_21L; mapText[16][c] = "@3.3";
+        mapStyle[17][c] = PLAYER3_21L; mapText[17][c] = "@3.4";
 
-        mapStyle[18][c] = PLAYER3_21L; mapText[18][c] = "";
-        mapStyle[19][c] = PLAYER3_21L; mapText[19][c] = "";
-        mapStyle[20][c] = PLAYER3_21L; mapText[20][c] = "";
-        mapStyle[21][c] = PLAYER3_21L; mapText[21][c] = "";
+        mapStyle[18][c] = PLAYER3_21L; mapText[18][c] = "@3.5";
+        mapStyle[19][c] = PLAYER3_21L; mapText[19][c] = "@3.6";
+        mapStyle[20][c] = PLAYER3_21L; mapText[20][c] = "@3.7";
+        mapStyle[21][c] = PLAYER3_21L; mapText[21][c] = "@3.8";
 
         mapStyle[22][c] = BLACK21L; mapText[22][c] = "";
         mapStyle[23][c] = MERGEDCELL; mapText[23][c] = "";
@@ -316,7 +319,7 @@ public class MapArray {
         c = 8; //COLUMN 8
         mapStyle[1][c] = BLUE21 ; mapText[1][c] = "";
         mapStyle[2][c] = BLUE21; mapText[2][c] = "";
-        mapStyle[3][c] = BLUE21; mapText[3][c] = "  œŒÀ»÷»ﬂ";
+        mapStyle[3][c] = BLUE21; mapText[3][c] = "  œŒÀ»÷»ﬂ (6)";
         mapStyle[4][c] = BLUE21; mapText[4][c] = "";
         mapStyle[5][c] = BLUE21; mapText[5][c] = "";
 
@@ -331,7 +334,7 @@ public class MapArray {
         mapStyle[13][c] = BLACK21; mapText[13][c] = "";
 
         mapStyle[14][c] = YELLOW21; mapText[14][c] = "";
-        mapStyle[15][c] = YELLOW21; mapText[15][c] = "¡¿Õ ¿";
+        mapStyle[15][c] = YELLOW21; mapText[15][c] = "¡¿Õ ¿ (9)";
         mapStyle[16][c] = YELLOW21; mapText[16][c] = "";
         mapStyle[17][c] = YELLOW21; mapText[17][c] = "";
 
@@ -346,17 +349,17 @@ public class MapArray {
         mapStyle[25][c] = BLACK21; mapText[25][c] = "";
 
         mapStyle[26][c] = GREEN21; mapText[26][c] = "";
-        mapStyle[27][c] = GREEN21; mapText[27][c] = "  ¡Œ–»—Œ¬¿";
+        mapStyle[27][c] = GREEN21; mapText[27][c] = "  ¡Œ–»—Œ¬¿ (12)";
         mapStyle[28][c] = GREEN21; mapText[28][c] = "  √–¿ƒ»Õ¿";
         mapStyle[29][c] = GREEN21; mapText[29][c] = "";
         mapStyle[30][c] = GREEN21; mapText[30][c] = "";
 
         c = 9; //COLUMN 9
-        mapStyle[1][c] = NAVY3 ; mapText[1][c] = " ";
-        mapStyle[2][c] = NAVY3 ; mapText[2][c] = " ";
-        mapStyle[3][c] = NAVY3 ; mapText[3][c] = " ";
-        mapStyle[4][c] = NAVY3 ; mapText[4][c] = " ";
-        mapStyle[5][c] = NAVY3 ; mapText[5][c] = " ";
+        mapStyle[1][c] = BLUE3 ; mapText[1][c] = " ";
+        mapStyle[2][c] = BLUE3 ; mapText[2][c] = " ";
+        mapStyle[3][c] = BLUE3 ; mapText[3][c] = " ";
+        mapStyle[4][c] = BLUE3 ; mapText[4][c] = " ";
+        mapStyle[5][c] = BLUE3 ; mapText[5][c] = " ";
 
         mapStyle[6][c] = RED3; mapText[6][c] = " ";
         mapStyle[7][c] = RED3; mapText[7][c] = " ";

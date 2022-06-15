@@ -1,5 +1,10 @@
 public class ProPrintSettings {
 
+    //MAP Frames
+    static String newLine = "=========================================================================================================================================================";
+    static String newLine2 = "---------------------------------------------------------------------------------------------------------------------------------------------------------";
+
+
     //Global Parameters for proPrint()
     public static String bgColor;
     public static String mainColor;
@@ -7,6 +12,88 @@ public class ProPrintSettings {
     public static int inWeight;
     public static String align;
     public static String frameSymbol;
+
+    public static void showMAP()
+    {
+        char c;
+        for (int row=1; row<=30; row++)
+        {
+            if (row==1) {System.out.println(newLine);}
+            for (int col=1; col<=9; col++)
+            {
+                //java dont support && for char type
+                if (MapArray.mapText[row][col].length()>0)
+                {
+                    c = MapArray.mapText[row][col].charAt(0);
+                    if (c=='#') partPrintPlayers(MapArray.mapText[row][col]);
+                    else if (c=='@') {
+                        String buildName = Monopoly.getBuildFromOwnerList(MapArray.mapText[row][col]);
+                        printCentered(buildName, buildName.length(), 21);
+                    }
+                    else if (row==23 && col==4) printCentered(MapArray.mapText[23][4], MapArray.mapText[0][0].length(), 63);
+                    else proPrint(MapArray.mapStyle[row][col], MapArray.mapText[row][col]);
+                }
+                else proPrint(MapArray.mapStyle[row][col], MapArray.mapText[row][col]);
+            }
+            if (row==5 || row==25) {br(); System.out.println(newLine2);}
+            else br();
+            if (row==30)  {System.out.println(newLine);}
+        }
+    }
+
+
+    public static void printCentered(String text, int txtlen, int inWidth)
+    {
+        String finalText = "";
+        int leftSp = (inWidth - txtlen)/2;
+        int rightSp = inWidth - leftSp - txtlen;
+
+        for (int i=1; i<= leftSp; i++) finalText += " ";
+        finalText+= text;
+        for (int i=1; i<= rightSp; i++) finalText += " ";
+        System.out.print(finalText);
+    }
+
+    public static void partPrintPlayers(String txt)
+    {   //when 2 or more players is in same field we need print them in different style
+        String nText = txt.substring(1);
+
+        String[] player = new String[4];
+        player[1]=""; player[2]=""; player[3]="";
+
+        int num = Integer.valueOf(nText);
+        int cntPlayersHere = 0;
+
+        ProPrintSettings st = new ProPrintSettings();
+        ProPrintSettings.changeStyle(MapArray.PLAYER3_3); //use global styles only for format each player
+        if (num/100==1) {player[3] = ProPrintSettings.cText(st,"[3]"); cntPlayersHere++;}
+        num = num%100;
+        ProPrintSettings.changeStyle(MapArray.PLAYER2_3);
+        if (num/10==1) {player[2] = ProPrintSettings.cText(st,"[2]"); cntPlayersHere++;}
+        ProPrintSettings.changeStyle(MapArray.PLAYER1_3);
+        if (num%10==1) {player[1] = ProPrintSettings.cText(st,"[1]"); cntPlayersHere++;}
+
+        String allPls = player[1] + player[2] + player[3];
+
+        printCentered(allPls,cntPlayersHere*3,21); //but don't use global styles for this field because each player must be in own color
+    }
+
+    //Print text using specific style:
+    //cell length, align, maincolor, background color, background symbol, background symbol color
+    public static void proPrint(int style, String txt) {
+
+        ProPrintSettings st = new ProPrintSettings();
+        ProPrintSettings.changeStyle(style);
+
+        String res;
+        switch (st.align) {
+            case "left" -> res = ProPrintSettings.lText(st, txt);
+            case "center", "centre" -> res = ProPrintSettings.cText(st, txt);
+            case "right" -> res = ProPrintSettings.rText(st, txt);
+            default -> res = "";
+        }
+        System.out.print(res);
+    }
 
     public static String cText(ProPrintSettings st, String txt) {
         int n = txt.length();
@@ -104,7 +191,7 @@ public class ProPrintSettings {
 
         ProPrintSettings nst = new ProPrintSettings();
         switch (x) {
-            case 1 -> { //NAVY3
+            case 1 -> { //BLUE3
                 nst.bgColor = "blue"; nst.mainColor = "black"; nst.frameColor = "black";
                 nst.align = "center";  nst.frameSymbol = " "; nst.inWeight = 3;
             }
@@ -129,7 +216,7 @@ public class ProPrintSettings {
                 nst.align = "center";  nst.frameSymbol = " "; nst.inWeight = 21;
             }
             case 7-> { // NAVY21
-                nst.bgColor = "blue"; nst.mainColor = "black"; nst.frameColor = "black";
+                nst.bgColor = "navy"; nst.mainColor = "black"; nst.frameColor = "black";
                 nst.align = "center";  nst.frameSymbol = " "; nst.inWeight = 21;
             }
             case 8-> { // YELLOW21
@@ -233,23 +320,26 @@ public class ProPrintSettings {
                 nst.align = "center";  nst.frameSymbol = " "; nst.inWeight = 3;
             }
 
-            case 33 -> { // PLAYER1_21L
-                nst.bgColor = "black"; nst.mainColor = "normal"; nst.frameColor = "black";
-                nst.align = "left";  nst.frameSymbol = " "; nst.inWeight = 21;
+            case 33 -> { // PLAYER1_21
+                nst.bgColor = "black"; nst.mainColor = "cyan"; nst.frameColor = "black";
+                nst.align = "center";  nst.frameSymbol = " "; nst.inWeight = 21;
             }
-            case 34 -> { // PLAYER2_21L
+            case 34 -> { // PLAYER2_21
                 nst.bgColor = "black"; nst.mainColor = "pink"; nst.frameColor = "black";
-                nst.align = "left";  nst.frameSymbol = " "; nst.inWeight = 21;
+                nst.align = "center";  nst.frameSymbol = " "; nst.inWeight = 21;
             }
-            case 35 -> { // PLAYER3_21L
+            case 35 -> { // PLAYER3_21
                 nst.bgColor = "black"; nst.mainColor = "green"; nst.frameColor = "black";
-                nst.align = "left";  nst.frameSymbol = " "; nst.inWeight = 21;
+                nst.align = "center";  nst.frameSymbol = " "; nst.inWeight = 21;
             }
 
         }
 
+    }
 
-        //st = nst;
+    public static void br()
+    {
+        System.out.println();
     }
 
 }

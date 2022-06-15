@@ -1,32 +1,74 @@
+import java.util.Objects;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Monopoly {
 
-    public static int[] mRow = new int[24]; //the real row for show level and owner // mrow+1 = player on field
-    public static int[] mCol = new int[24];
-
+    static int exitloop = 0;
+    static int curPlayer = 1;
 
     public static void main(String[] args) {
 
-        MapArray.initializeMapValues();
+        MapArray.initializeMapValues(); //Once in beginning
+        initializeFieldToRowColValues(); //Once in beggining
+        setInflationField(); //working
 
-        initializeFieldToRowColValues();
+        MapArray.mapText[11][4] = plName[1];  //Once
+        MapArray.mapText[11][5] = plName[2];
+        MapArray.mapText[11][6] = plName[3];
 
-        //showMAP();
+        curPlayer = 1;
 
-        int curPlayer = 1, curField = 0;
-        movePlayerToField(curPlayer, curField);
-        curPlayer = 2; curField = 0;
-        movePlayerToField(curPlayer, curField);
-        curPlayer = 3; curField = 0;
-        movePlayerToField(curPlayer, curField);
+        while (!endGame)
+        {
+            exitloop++; if (exitloop>200) endGame = true; // break infinity loop when test
 
 
-        setInflationField();
-        showOwnership();
+            System.out.print("Player "+plName[curPlayer]+" enter your action (r-roll dices)");
+            String act = scn.nextLine();
 
-        showMAP();
+            if (act.equals("r"))
+            {
+                int d1 = rollDice(); int d2 = rollDice();
+                System.out.printf("Хвърлихте %d + %d ",d1,d2);
 
+
+                int newField = (plWhere[curPlayer] + d1  + d2) % 24;
+                String txt = "Играч " + plName[curPlayer]+" попада на поле " + buildings[newField];
+                System.out.println(txt);
+
+                plWhere[curPlayer] = newField; movePlayerToField(); //working
+            }
+
+            ProPrintSettings.showMAP(); //working
+            curPlayer++; if (curPlayer==4) curPlayer=1;
+        }
+
+
+
+        addBuildToPlayer(1,13); //working
+        addBuildToPlayer(1,4);
+        addBuildToPlayer(1,1);
+
+        addBuildToPlayer(2,22); //working
+        addBuildToPlayer(2,8);
+        addBuildToPlayer(2,15);
+        addBuildToPlayer(2,14);
+
+        addBuildToPlayer(3,2);
+        addBuildToPlayer(3,23);
+        addBuildToPlayer(3,5);
+        addBuildToPlayer(3,11);
+
+
+
+
+
+        /*for (int x=1; x<=plOwnerList[1][0];x++)
+        {
+            System.out.println(plOwnerList[1][x]);
+        }
+         */
 
     }
 
@@ -59,23 +101,24 @@ public class Monopoly {
 
     }
 
-    public static void movePlayerToField(int player, int field)
+    public static void movePlayerToField()
     {
-       int row = mRow[field]; int col = mCol[field];
-       plWhere[player] = field;
+        for (int field=0; field<24; field++)
+        {
+            int row = mRow[field]; int col = mCol[field];
+            int res=0;
 
-        int res=0;
+            // I need this because special print players in same field with different colors
+            if (field == plWhere[1]) res += 1;
+            if (field == plWhere[2]) res += 10;
+            if (field == plWhere[3]) res += 100;
 
-        // I need this because special print players in same field with different colors
-        if (field == plWhere[1]) res += 1;
-        if (field == plWhere[2]) res += 10;
-        if (field == plWhere[3]) res += 100;
-        //bPHere[field] = res;
+            String txt="";
+            if (res>0) txt = "#" + res; // this text must be formatet by parts; 1-3 players HERE
 
-        String txt="";
-        if (res>0) txt = "#" + res; // this text must be formatet by parts; 1-3 players HERE
+            updateTextArray(row, col, txt);
+        }
 
-       updateTextArray(row, col, txt);
     }
 
     public static void updateTextArray(int row, int col, String newText)
@@ -83,55 +126,47 @@ public class Monopoly {
         MapArray.mapText[row][col] = newText;
     }
 
-    public static void showMAP()
+
+    public static String getBuildFromOwnerList(String txt)
     {
-        char c;
-        for (int row=1; row<=30; row++)
-        {
-            if (row==1) {System.out.println(newLine);}
-            for (int col=1; col<=9; col++)
+        String newText = txt.substring(1);
+        double val = Double.valueOf(newText);
+        val = val*10;
+        int player = (int) val/10;
+        int index = (int) val%10;
+
+        if (plOwnerList[player][index]==0) return "|";  //empty elements dont be show as (0) START
+        else return buildings[plOwnerList[player][index]];
+    }
+
+    public static void addBuildToPlayer(int pl, int build)
+    {
+        int ix = plOwnerList[pl][0]+1;  //index [pl][0] show us number of added items
+        plOwnerList[pl][ix] = build;
+
+        //Sort Array
+        if (ix>1)
+        {        //find only position on new item
+            for (int i=ix; i>=2; i--)
             {
-                //java dont support && for char type
-                if (MapArray.mapText[row][col].length()>0)
-                {
-                    c = MapArray.mapText[row][col].charAt(0);
-                    if (c=='#') {
-                        partPrintPlayers(MapArray.mapText[row][col]);
-                    }
-                    else if (row==23 && col==4) printCentered(MapArray.mapText[23][4], MapArray.mapText[0][0].length(), 63);
-                    else proPrint(MapArray.mapStyle[row][col], MapArray.mapText[row][col]);
+                if (plOwnerList[pl][i]<plOwnerList[pl][i-1])
+                {   //if new item is with low index let Up it
+                    int p = plOwnerList[pl][i];
+                    plOwnerList[pl][i] = plOwnerList[pl][i-1];
+                    plOwnerList[pl][i-1] = p;
                 }
-                else proPrint(MapArray.mapStyle[row][col], MapArray.mapText[row][col]);
             }
-            if (row==5 || row==25) {br(); System.out.println(newLine2);}
-            else br();
-            if (row==30)  {System.out.println(newLine);}
         }
+        plOwnerList[pl][0]+=1;
+
     }
 
-    public static void showOwnership()
+    public static void refreshPlayerMoney(int player, int change)
     {
-        MapArray.mapText[11][4] = plName[1]; MapArray.mapText[12][4] = String.valueOf(plMoney[1]);
-        MapArray.mapText[11][5] = plName[2]; MapArray.mapText[12][5] = String.valueOf(plMoney[2]);
-        MapArray.mapText[11][6] = plName[3]; MapArray.mapText[12][6] = String.valueOf(plMoney[3]);
+        plMoney[player] += change;
+        MapArray.mapText[12][3+player] = String.valueOf(plMoney[player]); //for MAP
     }
 
-
-    //Print text using specific style:
-    //cell length, align, maincolor, background color, background symbol, background symbol color
-    public static void proPrint(int style, String txt) {
-
-        ProPrintSettings.changeStyle(style);
-
-        String res;
-        switch (st.align) {
-            case "left" -> res = ProPrintSettings.lText(st, txt);
-            case "center", "centre" -> res = ProPrintSettings.cText(st, txt);
-            case "right" -> res = ProPrintSettings.rText(st, txt);
-            default -> res = "";
-        }
-        System.out.print(res);
-    }
 
     public static void setInflationField()
     {
@@ -139,81 +174,68 @@ public class Monopoly {
         String txtWithRealLength = "";
 
         txt += "\u001B[0m"; //color normal
-        txt += "Инфлация: глобална: "; txtWithRealLength += "Инфлация: глобална: ";
-
-        txt +=  "\u001B[31m"; //color pink
-        txt += "храна: "; txtWithRealLength += "храна: ";
+        txt += "Глобална: ";
+        txt += convertInflationToPercent(infGlobal);
 
         txt +=  "\u001B[36m"; //color cyan
-        txt += "вода: "; txtWithRealLength += "вода: ";
+        txt += "Вода: ";
+        txt += convertInflationToPercent(infWater);
+
+        txt +=  "\u001B[31m"; //color pink
+        txt += "Храна: ";
+        txt += convertInflationToPercent(infFood);
 
         txt +=  "\u001B[33m"; //color yellow
-        txt += "енергия: "; txtWithRealLength += "енергия: ";
+        txt += "Енергия: ";
+        txt += convertInflationToPercent(infEnergy);
+
+        txtWithRealLength += "Глобална: ";
+        txtWithRealLength += convertInflationToPercent(infGlobal);
+        txtWithRealLength += "Вода: ";
+        txtWithRealLength += convertInflationToPercent(infWater);
+        txtWithRealLength += "Храна: ";
+        txtWithRealLength += convertInflationToPercent(infFood);
+        txtWithRealLength += "Енергия: ";
+        txtWithRealLength += convertInflationToPercent(infEnergy);
 
         MapArray.mapText[23][4] = txt;  //colored text
         MapArray.mapText[0][0] =  txtWithRealLength;
     }
 
-    public static void partPrintPlayers(String txt)
-    {   //when 2 or more players is in same field we need print them in different style
-        String nText = txt.substring(1);
-
-        String[] player = new String[4];
-        player[1]=""; player[2]=""; player[3]="";
-
-        int num = Integer.valueOf(nText);
-        int cntPlayersHere = 0;
-
-        ProPrintSettings.changeStyle(MapArray.PLAYER3_3); //use global styles only for format each player
-        if (num/100==1) {player[3] = ProPrintSettings.cText(st,"[3]"); cntPlayersHere++;}
-        num = num%100;
-        ProPrintSettings.changeStyle(MapArray.PLAYER2_3);
-        if (num/10==1) {player[2] = ProPrintSettings.cText(st,"[2]"); cntPlayersHere++;}
-        ProPrintSettings.changeStyle(MapArray.PLAYER1_3);
-        if (num%10==1) {player[1] = ProPrintSettings.cText(st,"[1]"); cntPlayersHere++;}
-
-        String allPls = player[1] + player[2] + player[3];
-
-        printCentered(allPls,cntPlayersHere*3,21); //but don't use global styles for this field because each player must be in own color
-    }
-
-    public static void printCentered(String text, int txtlen, int inWidth)
+ public static int rollDice()
+ {
+     Random x = new Random();
+     int dice = x.nextInt(4)+1;
+     return dice;
+ }
+    public static String convertInflationToPercent(double inf)
     {
-        String finalText = "";
-        int leftSp = (inWidth - txtlen)/2;
-        int rightSp = inWidth - leftSp - txtlen;
-
-        for (int i=1; i<= leftSp; i++) finalText += " ";
-        finalText+= text;
-        for (int i=1; i<= rightSp; i++) finalText += " ";
-        System.out.print(finalText);
+        double newInf = inf*100;
+        int perc = (int) newInf - 100;
+        return String.valueOf(perc)+"% ";
     }
 
-    public static void br()
-    {
-        System.out.println();
-    }
+    //The real rows where shows level and owner // mrow = player on field
+    public static int[] mRow = new int[24];
+    public static int[] mCol = new int[24];
 
-    //MAP Frames
-    static String newLine = "=========================================================================================================================================================";
-    static String newLine2 = "---------------------------------------------------------------------------------------------------------------------------------------------------------";
+    //Continue the game while this is false
+    public static boolean endGame = false;
 
     //Scanner
-    Scanner scn = new Scanner(System.in);
-
-    //Instance of style to use
-    public static ProPrintSettings st = new ProPrintSettings();
+    static Scanner scn = new Scanner(System.in);
 
     //Global inflation variables
-    public static double infGlobal = 1;
-    public static double infEnergy = 1;
-    public static double infWater = 1;
-    public static double infFood = 1;
+    public static double infGlobal = 1.22;
+    public static double infEnergy = 1.11;
+    public static double infWater = 1.07;
+    public static double infFood = 1.45;
 
     //Player Arrays (Simulation of Player class)
     public static String[] plName = new String[] {"", "Smarto", "Greedy", "Fooly"};
     public static int[] plWhere = new int[] {0,0,0,0};
     public static int[] plMoney = new int[] {0,2000,2000,2000};
+    public static int[][] plOwnerList = new int[4][9]; // [player] [building] /// [pl][0] - count elements
     public static boolean[] hadPrisonCard = new boolean[4]; //no one in beginning
     public static boolean[] hadHospitalCard = new boolean[4]; //no one in beginning
 
@@ -226,16 +248,31 @@ public class Monopoly {
 
     //Split monopoly fields
     public static int[] bMPsplit = new int[] {-1,1,1,-1,2,2,-1,3,3,0,4,4,-1,5,5,0,0,-1,-1,0,6,6,6,0};
+
+    //Prices without any inflation
     public static int[] bCost = new int[] {0, 130, 130, 0, 230, 230, 0, 270, 270, 0, 350, 350, 0,
                     300, 350, 200, 0, 0, 0, 400, 250, 300, 350, 400};
+
+    //Upgrade cost without any inflation
     public static int[] bUpgrade = new int[] {0, 75, 75, 0, 125, 125, 0, 80, 80, 0, 175, 175, 0,
                     135, 150, 0, 0, 0, 0, 0, 125, 150, 200, 0};
+
+    //Levels after upgrade
     public static int[] bLevel = new int[24];
+
+    //Tax per Level
     public static int[] bTaxtPL = new int[] {0, 25, 25, 0, 50, 50, 0, 60, 60, 0, 80, 80, 0,
                     75, 80, 50, 0, 0, 0, 70, 60, 75, 80, 70};
+
+    //Here we change ownership of buildings. 9 - not for sale
     public static int[] bOwner = new int[] {9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 0, 9, 9, 9, 0, 0, 0, 0, 0};
+
+    //When some player get Monopoly the field in this array will become true and accept upgrade
     public static boolean[] bReadyForUpgrade = new boolean[24];
+
+    //Mark how many and which players are in this field.
     public static int[] bPHere = new int[24]; // 1 - p1 , 10 - p2, 100 - p3 sum of them
+
 
 
 }
