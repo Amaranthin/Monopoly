@@ -25,7 +25,7 @@ public class MapArray {
     public	static	int	BLACK21F	=	22; //Filed with =======
     public	static	int	BLACK21L = 23; //Black Background Left Align
     public	static	int	BLACK21R = 24; //Black Background Right Align
-    public	static	int	WINNER63 = 25;
+    public	static	int	NOTICE63 = 25; //For inflation fields
     public	static	int	BLACK21LN = 26;
     public	static	int	MERGEDCELL = 27;
     public	static	int	RED3 = 28;
@@ -34,9 +34,12 @@ public class MapArray {
     public static int PLAYER1_3 = 30;
     public static int PLAYER2_3 = 31;
     public static int PLAYER3_3 = 32;
-    public static int PLAYER1_21L = 33;
-    public static int PLAYER2_21L = 34;
-    public static int PLAYER3_21L = 35;
+    public static int PLAYER1_21 = 33; //====== Warning!!! ======
+    public static int PLAYER2_21 = 34; //Dont change these 3 constants, they are FIXED and used in addBuildToPlayer()
+    public static int PLAYER3_21 = 35; //When we build something we use them as (32 + player number) to print ownership
+
+    public static int CONGRATS63 = 36;
+
 
     public static int[][] mapStyle = new int[31][10];
     public static String[][] mapText = new String[31][10];
@@ -89,33 +92,33 @@ public class MapArray {
 
         c = 2; //COLUMN 2
         mapStyle[1][c] = BLUE21; mapText[1][c] = "";
-        mapStyle[2][c] = BLUE21; mapText[2][c] = "";
+        mapStyle[2][c] = BLUE21; mapText[2][c] = "+200";
         mapStyle[3][c] = BLUE21; mapText[3][c] = ">>> СТАРТ >>>  ";
         mapStyle[4][c] = BLUE21; mapText[4][c] = "";
         mapStyle[5][c] = BLUE21; mapText[5][c] = "";
 
-        mapStyle[6][c] = YELLOW21; mapText[6][c] = "EON (23)";
-        mapStyle[7][c] = YELLOW21; mapText[7][c] = "* tax";
+        mapStyle[6][c] = YELLOW21; mapText[6][c] = "";
+        mapStyle[7][c] = YELLOW21; mapText[7][c] = "Energy C.(23)";
         mapStyle[8][c] = YELLOW21; mapText[8][c] = "";
         mapStyle[9][c] = YELLOW21; mapText[9][c] = "";
 
         mapStyle[10][c] = BLACK21; mapText[10][c] = "Building";
         mapStyle[11][c] = BLACK21; mapText[11][c] = "Corporation (22)";
-        mapStyle[12][c] = BLACK21; mapText[12][c] = "* tax";
+        mapStyle[12][c] = BLACK21; mapText[12][c] = "";
         mapStyle[13][c] = BLACK21; mapText[13][c] = "";
 
         mapStyle[14][c] = BLACK21; mapText[14][c] = "Global";
         mapStyle[15][c] = BLACK21; mapText[15][c] = "Services (21)";
-        mapStyle[16][c] = BLACK21; mapText[16][c] = "* tax";
+        mapStyle[16][c] = BLACK21; mapText[16][c] = "";
         mapStyle[17][c] = BLACK21; mapText[17][c] = "";
 
         mapStyle[18][c] = BLACK21; mapText[18][c] = "Chaos";
         mapStyle[19][c] = BLACK21; mapText[19][c] = "Group (20)";
-        mapStyle[20][c] = BLACK21; mapText[20][c] = "* tax";
+        mapStyle[20][c] = BLACK21; mapText[20][c] = "";
         mapStyle[21][c] = BLACK21; mapText[21][c] = "";
 
-        mapStyle[22][c] = CYAN21; mapText[22][c] = "ВИК (19)";
-        mapStyle[23][c] = CYAN21; mapText[23][c] = "* tax";
+        mapStyle[22][c] = CYAN21; mapText[22][c] = "";
+        mapStyle[23][c] = CYAN21; mapText[23][c] = "ВИК (19)";
         mapStyle[24][c] = CYAN21; mapText[24][c] = "";
         mapStyle[25][c] = CYAN21; mapText[25][c] = "";
 
@@ -128,8 +131,8 @@ public class MapArray {
 
         c = 3; //COLUMN 3
         mapStyle[1][c] = RED21R; mapText[1][c] = "СПО";
-        mapStyle[2][c] = BLACK21; mapText[2][c] = "ФК ЦСКА (1)";
-        mapStyle[3][c] = BLACK21; mapText[3][c] = "* tax";
+        mapStyle[2][c] = BLACK21; mapText[2][c] = "";
+        mapStyle[3][c] = BLACK21; mapText[3][c] = "ФК ЦСКА (1)";
         mapStyle[4][c] = BLACK21; mapText[4][c] = " ";
         mapStyle[5][c] = BLACK21; mapText[5][c] = " ";
 
@@ -166,8 +169,8 @@ public class MapArray {
 
         c = 4; //COLUMN 4
         mapStyle[1][c] = RED21L; mapText[1][c] = "РТ";
-        mapStyle[2][c] = BLACK21; mapText[2][c] = "ФК ЛЕВСКИ (2)";
-        mapStyle[3][c] = BLACK21; mapText[3][c] = "* tax";
+        mapStyle[2][c] = BLACK21; mapText[2][c] = "";
+        mapStyle[3][c] = BLACK21; mapText[3][c] = "ФК ЛЕВСКИ (2)";
         mapStyle[4][c] = BLACK21; mapText[4][c] = " ";
         mapStyle[5][c] = BLACK21; mapText[5][c] = " ";
 
@@ -176,24 +179,24 @@ public class MapArray {
         mapStyle[8][c] = LOGO63; mapText[8][c] = "===== SOFIA =====";
         mapStyle[9][c] = BLACK21; mapText[9][c] = "";
 
-        mapStyle[10][c] = BLACK21; mapText[10][c] = "";
-        mapStyle[11][c] = PLAYER1_21L; mapText[11][c] = "Играч 1";
-        mapStyle[12][c] = PLAYER1_21L; mapText[12][c] = "2000 лв";
-        mapStyle[13][c] = PLAYER1_21L; mapText[13][c] = "==============";
+        mapStyle[10][c] = PLAYER1_21; mapText[10][c] = "Играч 1";
+        mapStyle[11][c] = PLAYER1_21; mapText[11][c] = "2000 лв";
+        mapStyle[12][c] = PLAYER1_21; mapText[12][c] = "==============";
+        mapStyle[13][c] = PLAYER1_21; mapText[13][c] = "@1.1"; //@ - call to method Monopoly.getBuildFromOwnerList()
 
-        mapStyle[14][c] = PLAYER1_21L; mapText[14][c] = "@1.1"; //call to function with this parameter
-        mapStyle[15][c] = PLAYER1_21L; mapText[15][c] = "@1.2";
-        mapStyle[16][c] = PLAYER1_21L; mapText[16][c] = "@1.3";
-        mapStyle[17][c] = PLAYER1_21L; mapText[17][c] = "@1.4";
+        mapStyle[14][c] = PLAYER1_21; mapText[14][c] = "@1.2"; //with these parameters
+        mapStyle[15][c] = PLAYER1_21; mapText[15][c] = "@1.3";
+        mapStyle[16][c] = PLAYER1_21; mapText[16][c] = "@1.4";
+        mapStyle[17][c] = PLAYER1_21; mapText[17][c] = "@1.5";
 
-        mapStyle[18][c] = PLAYER1_21L; mapText[18][c] = "@1.5";
-        mapStyle[19][c] = PLAYER1_21L; mapText[19][c] = "@1.6";
-        mapStyle[20][c] = PLAYER1_21L; mapText[20][c] = "@1.7";
-        mapStyle[21][c] = PLAYER1_21L; mapText[21][c] = "@1.8";
+        mapStyle[18][c] = PLAYER1_21; mapText[18][c] = "@1.6";
+        mapStyle[19][c] = PLAYER1_21; mapText[19][c] = "@1.7";
+        mapStyle[20][c] = PLAYER1_21; mapText[20][c] = "@1.8";
+        mapStyle[21][c] = PLAYER1_21; mapText[21][c] = "";
 
         mapStyle[22][c] = BLACK21L; mapText[22][c] = "";
-        mapStyle[23][c] = WINNER63; mapText[23][c] = "Инфлация: Ток: 0%  Вода: 0%  Храна: 0% "; //Field Inflation
-        mapStyle[24][4] = WINNER63; mapText[24][c] = "За победа е достатъчно и пръв да закупите 9 обекта!"; //Field last action
+        mapStyle[23][c] = NOTICE63; mapText[23][c] = "Инфлация: Ток: 0%  Вода: 0%  Храна: 0% "; //Field Inflation
+        mapStyle[24][4] = NOTICE63; mapText[24][c] = "За победа е достатъчно и пръв да закупите 9 обекта!"; //Field last action
         mapStyle[25][c] = BLACK21L; mapText[25][c] = "";
 
         mapStyle[26][c] = BLACK21; mapText[26][c] = "";
@@ -204,8 +207,8 @@ public class MapArray {
 
         c = 5; //COLUMN 5
         mapStyle[1][c] = GREEN21; mapText[1][c] = "НАУКА";
-        mapStyle[2][c] = GREEN21; mapText[2][c] = "УНИВЕРСИТЕТ (3)";
-        mapStyle[3][c] = GREEN21; mapText[3][c] = "* tax";
+        mapStyle[2][c] = GREEN21; mapText[2][c] = "";
+        mapStyle[3][c] = GREEN21; mapText[3][c] = "УНИВЕРСИТЕТ (3)";
         mapStyle[4][c] = GREEN21; mapText[4][c] = " ";
         mapStyle[5][c] = GREEN21; mapText[5][c] = " ";
 
@@ -214,20 +217,20 @@ public class MapArray {
         mapStyle[8][c] = MERGEDCELL; mapText[8][c] = ""; //Dont show in map
         mapStyle[9][c] = BLACK21; mapText[9][c] = "";
 
-        mapStyle[10][c] = BLACK21; mapText[10][c] = "";
-        mapStyle[11][c] = PLAYER2_21L; mapText[11][c] = "Играч 2";
-        mapStyle[12][c] = PLAYER2_21L; mapText[12][c] = "2000 лв";
-        mapStyle[13][c] = PLAYER2_21L; mapText[13][c] = "==============";
+        mapStyle[10][c] = PLAYER2_21; mapText[10][c] = "Играч 2";
+        mapStyle[11][c] = PLAYER2_21; mapText[11][c] = "2000 лв";
+        mapStyle[12][c] = PLAYER2_21; mapText[12][c] = "==============";
+        mapStyle[13][c] = PLAYER2_21; mapText[13][c] = "@2.1"; //@ call to function with this parameters
 
-        mapStyle[14][c] = PLAYER2_21L; mapText[14][c] = "@2.1";
-        mapStyle[15][c] = PLAYER2_21L; mapText[15][c] = "@2.2";
-        mapStyle[16][c] = PLAYER2_21L; mapText[16][c] = "@2.3";
-        mapStyle[17][c] = PLAYER2_21L; mapText[17][c] = "@2.4";
+        mapStyle[14][c] = PLAYER2_21; mapText[14][c] = "@2.2";
+        mapStyle[15][c] = PLAYER2_21; mapText[15][c] = "@2.3";
+        mapStyle[16][c] = PLAYER2_21; mapText[16][c] = "@2.4";
+        mapStyle[17][c] = PLAYER2_21; mapText[17][c] = "@2.5";
 
-        mapStyle[18][c] = PLAYER2_21L; mapText[18][c] = "@2.5";
-        mapStyle[19][c] = PLAYER2_21L; mapText[19][c] = "@2.5";
-        mapStyle[20][c] = PLAYER2_21L; mapText[20][c] = "@2.7";
-        mapStyle[21][c] = PLAYER2_21L; mapText[21][c] = "@2.8";
+        mapStyle[18][c] = PLAYER2_21; mapText[18][c] = "@2.6";
+        mapStyle[19][c] = PLAYER2_21; mapText[19][c] = "@2.7";
+        mapStyle[20][c] = PLAYER2_21; mapText[20][c] = "@2.8";
+        mapStyle[21][c] = PLAYER2_21; mapText[21][c] = "";
 
         mapStyle[22][c] = BLACK21; mapText[22][c] = "=== ИНФЛАЦИЯ ===";
         mapStyle[23][c] = MERGEDCELL; mapText[23][c] = "";
@@ -236,14 +239,14 @@ public class MapArray {
 
         mapStyle[26][c] = BLUE21; mapText[26][c] = "";
         mapStyle[27][c] = BLUE21; mapText[27][c] = "ЛЕТИЩЕ (15)";
-        mapStyle[28][c] = BLUE21; mapText[28][c] = "* tax";
+        mapStyle[28][c] = BLUE21; mapText[28][c] = "";
         mapStyle[29][c] = BLUE21; mapText[29][c] = "";
         mapStyle[30][c] = BLUE21; mapText[30][c] = "ТРАНСПОРТ";
 
         c = 6; //COLUMN 6
         mapStyle[1][c] = ORANGE21R; mapText[1][c] = "ХРАНИ";
-        mapStyle[2][c] = BLACK21; mapText[2][c] = "Happy B&G (4)";
-        mapStyle[3][c] = BLACK21; mapText[3][c] = "* tax";
+        mapStyle[2][c] = BLACK21; mapText[2][c] = "";
+        mapStyle[3][c] = BLACK21; mapText[3][c] = "Happy B&G (4)";
         mapStyle[4][c] = BLACK21; mapText[4][c] = "";
         mapStyle[5][c] = BLACK21; mapText[5][c] = "";
 
@@ -252,20 +255,20 @@ public class MapArray {
         mapStyle[8][c] = MERGEDCELL; mapText[8][c] = ""; //Dont show in map
         mapStyle[9][c] = BLACK21; mapText[9][c] = "";
 
-        mapStyle[10][c] = BLACK21; mapText[10][c] = "";
-        mapStyle[11][c] = PLAYER3_21L; mapText[11][c] = "Играч 3";
-        mapStyle[12][c] = PLAYER3_21L; mapText[12][c] = "2000 лв";
-        mapStyle[13][c] = PLAYER3_21L; mapText[13][c] = "==============";
+        mapStyle[10][c] = PLAYER3_21; mapText[10][c] = "Играч 3";
+        mapStyle[11][c] = PLAYER3_21; mapText[11][c] = "2000 лв";
+        mapStyle[12][c] = PLAYER3_21; mapText[12][c] = "==============";
+        mapStyle[13][c] = PLAYER3_21; mapText[13][c] = "@3.1"; //@ call to function with this parameters
 
-        mapStyle[14][c] = PLAYER3_21L; mapText[14][c] = "@3.1";
-        mapStyle[15][c] = PLAYER3_21L; mapText[15][c] = "@3.2";
-        mapStyle[16][c] = PLAYER3_21L; mapText[16][c] = "@3.3";
-        mapStyle[17][c] = PLAYER3_21L; mapText[17][c] = "@3.4";
+        mapStyle[14][c] = PLAYER3_21; mapText[14][c] = "@3.2";
+        mapStyle[15][c] = PLAYER3_21; mapText[15][c] = "@3.3";
+        mapStyle[16][c] = PLAYER3_21; mapText[16][c] = "@3.4";
+        mapStyle[17][c] = PLAYER3_21; mapText[17][c] = "@3.5";
 
-        mapStyle[18][c] = PLAYER3_21L; mapText[18][c] = "@3.5";
-        mapStyle[19][c] = PLAYER3_21L; mapText[19][c] = "@3.6";
-        mapStyle[20][c] = PLAYER3_21L; mapText[20][c] = "@3.7";
-        mapStyle[21][c] = PLAYER3_21L; mapText[21][c] = "@3.8";
+        mapStyle[18][c] = PLAYER3_21; mapText[18][c] = "@3.6";
+        mapStyle[19][c] = PLAYER3_21; mapText[19][c] = "@3.7";
+        mapStyle[20][c] = PLAYER3_21; mapText[20][c] = "@3.8";
+        mapStyle[21][c] = PLAYER3_21; mapText[21][c] = "";
 
         mapStyle[22][c] = BLACK21L; mapText[22][c] = "";
         mapStyle[23][c] = MERGEDCELL; mapText[23][c] = "";
@@ -274,14 +277,14 @@ public class MapArray {
 
         mapStyle[26][c] = BLACK21; mapText[26][c] = "";
         mapStyle[27][c] = BLACK21; mapText[27][c] = "Sofia Mall (14)";
-        mapStyle[28][c] = BLACK21; mapText[28][c] = "* tax";
+        mapStyle[28][c] = BLACK21; mapText[28][c] = "";
         mapStyle[29][c] = BLACK21; mapText[29][c] = "";
         mapStyle[30][c] = RED21R; mapText[30][c] = "РАЗВЛЕ";
 
         c = 7; //COLUMN 7
         mapStyle[1][c] = ORANGE21L; mapText[1][c] = "ТЕЛНИ";
-        mapStyle[2][c] = BLACK21; mapText[2][c] = "McDonnalds (5)";
-        mapStyle[3][c] = BLACK21; mapText[3][c] = "* tax";
+        mapStyle[2][c] = BLACK21; mapText[2][c] = "";
+        mapStyle[3][c] = BLACK21; mapText[3][c] = "McDonnalds (5)";
         mapStyle[4][c] = BLACK21; mapText[4][c] = "";
         mapStyle[5][c] = BLACK21; mapText[5][c] = "";
 
@@ -312,7 +315,7 @@ public class MapArray {
 
         mapStyle[26][c] = BLACK21; mapText[26][c] = "";
         mapStyle[27][c] = BLACK21; mapText[27][c] = "НДК (13)";
-        mapStyle[28][c] = BLACK21; mapText[28][c] = "* tax";
+        mapStyle[28][c] = BLACK21; mapText[28][c] = "";
         mapStyle[29][c] = BLACK21; mapText[29][c] = "";
         mapStyle[30][c] = RED21L; mapText[30][c] = "ЧЕНИЯ";
 
@@ -323,13 +326,13 @@ public class MapArray {
         mapStyle[4][c] = BLUE21; mapText[4][c] = "";
         mapStyle[5][c] = BLUE21; mapText[5][c] = "";
 
-        mapStyle[6][c] = BLACK21; mapText[6][c] = "Витошка (7)";
-        mapStyle[7][c] = BLACK21; mapText[7][c] = "* tax";
+        mapStyle[6][c] = BLACK21; mapText[6][c] = "";
+        mapStyle[7][c] = BLACK21; mapText[7][c] = "Витошка (7)";
         mapStyle[8][c] = BLACK21; mapText[8][c] = "";
         mapStyle[9][c] = BLACK21; mapText[9][c] = "";
 
-        mapStyle[10][c] = BLACK21; mapText[10][c] = "ЦУМ (8)";
-        mapStyle[11][c] = BLACK21; mapText[11][c] = "* tax";
+        mapStyle[10][c] = BLACK21; mapText[10][c] = "";
+        mapStyle[11][c] = BLACK21; mapText[11][c] = "ЦУМ (8)";
         mapStyle[12][c] = BLACK21; mapText[12][c] = "";
         mapStyle[13][c] = BLACK21; mapText[13][c] = "";
 
@@ -340,12 +343,12 @@ public class MapArray {
 
         mapStyle[18][c] = BLACK21; mapText[18][c] = "Grand Hotel";
         mapStyle[19][c] = BLACK21; mapText[19][c] = "Millenium (10)";
-        mapStyle[20][c] = BLACK21; mapText[20][c] = "* tax";
+        mapStyle[20][c] = BLACK21; mapText[20][c] = "";
         mapStyle[21][c] = BLACK21; mapText[21][c] = "";
 
         mapStyle[22][c] = BLACK21; mapText[22][c] = "Inter";
         mapStyle[23][c] = BLACK21; mapText[23][c] = "Continental (11)";
-        mapStyle[24][c] = BLACK21; mapText[24][c] = "* tax";
+        mapStyle[24][c] = BLACK21; mapText[24][c] = "";
         mapStyle[25][c] = BLACK21; mapText[25][c] = "";
 
         mapStyle[26][c] = GREEN21; mapText[26][c] = "";

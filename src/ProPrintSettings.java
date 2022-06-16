@@ -287,7 +287,7 @@ public class ProPrintSettings {
                 nst.bgColor = "black"; nst.mainColor = "white"; nst.frameColor = "black";
                 nst.align = "right";  nst.frameSymbol = " "; nst.inWeight = 21;
             }
-            case 25-> { //WINNER63
+            case 25-> { //NOTICE63
                 nst.bgColor = "black"; nst.mainColor = "normal"; nst.frameColor = "black";
                 nst.align = "center";  nst.frameSymbol = " "; nst.inWeight = 63;
             }
@@ -321,7 +321,7 @@ public class ProPrintSettings {
             }
 
             case 33 -> { // PLAYER1_21
-                nst.bgColor = "black"; nst.mainColor = "cyan"; nst.frameColor = "black";
+                nst.bgColor = "black"; nst.mainColor = "normal"; nst.frameColor = "black";
                 nst.align = "center";  nst.frameSymbol = " "; nst.inWeight = 21;
             }
             case 34 -> { // PLAYER2_21
@@ -331,6 +331,11 @@ public class ProPrintSettings {
             case 35 -> { // PLAYER3_21
                 nst.bgColor = "black"; nst.mainColor = "green"; nst.frameColor = "black";
                 nst.align = "center";  nst.frameSymbol = " "; nst.inWeight = 21;
+            }
+
+            case 36 -> { // CONGRATS63
+                nst.bgColor = "black"; nst.mainColor = "green"; nst.frameColor = "yellow";
+                nst.align = "center";  nst.frameSymbol = "*"; nst.inWeight = 63;
             }
 
         }
