@@ -25,7 +25,7 @@ public class ProPrintSettings {
                 if (MapArray.mapText[row][col].length()>0)
                 {
                     c = MapArray.mapText[row][col].charAt(0);
-                    if (c=='#') partPrintPlayers(MapArray.mapText[row][col]);
+                    if (c=='#') partPrintPlayersOrCards(MapArray.mapText[row][col]);
                     else if (c=='@') {
                         String buildName = Monopoly.getBuildFromOwnerList(MapArray.mapText[row][col]);
                         printCentered(buildName, buildName.length(), 21);
@@ -41,6 +41,56 @@ public class ProPrintSettings {
         }
     }
 
+    public static void partPrintPlayersOrCards(String txt)
+    {   //when 2 or more players is in same field we need print them in different style
+        String nText = txt.substring(1);
+
+        ProPrintSettings st = new ProPrintSettings();
+        int cntPlayersOrCardsHere = 0;
+
+        String fullstring = "";
+        for (int x=1; x<txt.length();x++)
+        {
+            char c = txt.charAt(x);
+
+            switch(c)
+            {
+                case '1' -> {
+                    ProPrintSettings.changeStyle(MapArray.PLAYER1_3);
+                    fullstring += ProPrintSettings.cText(st,"[1]");
+                    cntPlayersOrCardsHere++;
+                }
+                case '2' -> {
+                    ProPrintSettings.changeStyle(MapArray.PLAYER2_3);
+                    fullstring += ProPrintSettings.cText(st,"[2]");
+                    cntPlayersOrCardsHere++;
+                }
+                case '3' -> {
+                    ProPrintSettings.changeStyle(MapArray.PLAYER3_3);
+                    fullstring += ProPrintSettings.cText(st,"[3]");
+                    cntPlayersOrCardsHere++;
+                }
+                case 'P' -> {
+                    ProPrintSettings.changeStyle(MapArray.GREEN3);
+                    fullstring += ProPrintSettings.cText(st,"[P]");
+                    cntPlayersOrCardsHere++;
+                }
+                case 'H' -> {
+                    ProPrintSettings.changeStyle(MapArray.RED3);
+                    fullstring += ProPrintSettings.cText(st,"[H]");
+                    cntPlayersOrCardsHere++;
+                }
+                case 'U' -> {
+                    ProPrintSettings.changeStyle(MapArray.YELLOW3);
+                    fullstring += ProPrintSettings.cText(st,"[U]");
+                    cntPlayersOrCardsHere++;
+                }
+            }
+        }
+
+        //Don't use global styles for this field because each player or card must be in own color
+        printCentered(fullstring,cntPlayersOrCardsHere*3,21);
+    }
 
     public static void printCentered(String text, int txtlen, int inWidth)
     {
@@ -54,30 +104,6 @@ public class ProPrintSettings {
         System.out.print(finalText);
     }
 
-    public static void partPrintPlayers(String txt)
-    {   //when 2 or more players is in same field we need print them in different style
-        String nText = txt.substring(1);
-
-        String[] player = new String[4];
-        player[1]=""; player[2]=""; player[3]="";
-
-        int num = Integer.valueOf(nText);
-        int cntPlayersHere = 0;
-
-        ProPrintSettings st = new ProPrintSettings();
-        ProPrintSettings.changeStyle(MapArray.PLAYER3_3); //use global styles only for format each player
-        if (num/100==1) {player[3] = ProPrintSettings.cText(st,"[3]"); cntPlayersHere++;}
-        num = num%100;
-        ProPrintSettings.changeStyle(MapArray.PLAYER2_3);
-        if (num/10==1) {player[2] = ProPrintSettings.cText(st,"[2]"); cntPlayersHere++;}
-        ProPrintSettings.changeStyle(MapArray.PLAYER1_3);
-        if (num%10==1) {player[1] = ProPrintSettings.cText(st,"[1]"); cntPlayersHere++;}
-
-        String allPls = player[1] + player[2] + player[3];
-
-        printCentered(allPls,cntPlayersHere*3,21); //but don't use global styles for this field because each player must be in own color
-    }
-
     //Print text using specific style:
     //cell length, align, maincolor, background color, background symbol, background symbol color
     public static void proPrint(int style, String txt) {
@@ -88,7 +114,7 @@ public class ProPrintSettings {
         String res;
         switch (st.align) {
             case "left" -> res = ProPrintSettings.lText(st, txt);
-            case "center", "centre" -> res = ProPrintSettings.cText(st, txt);
+            case "center" -> res = ProPrintSettings.cText(st, txt);
             case "right" -> res = ProPrintSettings.rText(st, txt);
             default -> res = "";
         }
@@ -110,13 +136,14 @@ public class ProPrintSettings {
             if (x == 1) resText.append(addColor(st.frameColor));
             resText.append(st.frameSymbol);
         }
+
         resText.append(addColor(st.mainColor) + txt);
 
         for (int x = 1; x <= rightSpaces; x++) {
             if (x == 1) resText.append(addColor(st.frameColor));
             resText.append(st.frameSymbol);
         }
-        resText.append("\u001B[0m"); //да прекъсне бекграунда
+        resText.append("\u001B[0m"); //break this style
 
         return resText.toString();
     }
@@ -227,7 +254,7 @@ public class ProPrintSettings {
                 nst.bgColor = "cyan"; nst.mainColor = "black"; nst.frameColor = "black";
                 nst.align = "center";  nst.frameSymbol = " "; nst.inWeight = 21;
             }
-            case 10-> { // JAIL21
+            case 10-> { // PRISON21
                 nst.bgColor = "black"; nst.mainColor = "red"; nst.frameColor = "white";
                 nst.align = "center";  nst.frameSymbol = "|"; nst.inWeight = 21;
             }

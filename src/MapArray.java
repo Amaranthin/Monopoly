@@ -10,7 +10,7 @@ public class MapArray {
     public	static	int	NAVY21	=	7;
     public	static	int	YELLOW21	=	8;
     public	static	int	CYAN21	=	9;
-    public	static	int	JAIL21	=	10;
+    public	static	int	PRISON21	=	10;
     public	static	int	RED21	=	11;
     public	static	int	GREEN21	=	12;
     public	static	int	BLUE21	=	13;
@@ -92,7 +92,7 @@ public class MapArray {
 
         c = 2; //COLUMN 2
         mapStyle[1][c] = BLUE21; mapText[1][c] = "";
-        mapStyle[2][c] = BLUE21; mapText[2][c] = "+200";
+        mapStyle[2][c] = BLUE21; mapText[2][c] = "+250";
         mapStyle[3][c] = BLUE21; mapText[3][c] = ">>> СТАРТ >>>  ";
         mapStyle[4][c] = BLUE21; mapText[4][c] = "";
         mapStyle[5][c] = BLUE21; mapText[5][c] = "";
@@ -122,11 +122,11 @@ public class MapArray {
         mapStyle[24][c] = CYAN21; mapText[24][c] = "";
         mapStyle[25][c] = CYAN21; mapText[25][c] = "";
 
-        mapStyle[26][c] = JAIL21; mapText[26][c] = "";
-        mapStyle[27][c] = JAIL21; mapText[27][c] = "ЗАТВОР (18)";
-        mapStyle[28][c] = JAIL21; mapText[28][c] = "";
-        mapStyle[29][c] = JAIL21; mapText[29][c] = "";
-        mapStyle[30][c] = JAIL21; mapText[30][c] = "";
+        mapStyle[26][c] = PRISON21; mapText[26][c] = "";
+        mapStyle[27][c] = PRISON21; mapText[27][c] = "ЗАТВОР (18)";
+        mapStyle[28][c] = PRISON21; mapText[28][c] = "[разрешени карти]";
+        mapStyle[29][c] = PRISON21; mapText[29][c] = "";
+        mapStyle[30][c] = PRISON21; mapText[30][c] = "";
 
 
         c = 3; //COLUMN 3
