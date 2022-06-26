@@ -32,6 +32,11 @@ public class ProPrint {
                         String buildName = Monopoly.getBuildFromOwnerList(MapArray.mapText[row][col]);
                         printCentered(buildName, buildName.length(), 21);
                     }
+                    else if (c=='%')
+                    {
+                        showPlayerNameLevelAndTax(MapArray.mapText[row][col], row, col);
+                    }
+
                     //else if (ifSingleSector(row, col)) printWithSameBackground(row, col); //AirC, WaterC, EnergyC todo
                     else if (row==23 && col==4) printCentered(MapArray.mapText[23][4], MapArray.mapText[0][0].length(), 63);
                     else proPrint(MapArray.mapStyle[row][col], MapArray.mapText[row][col]);
@@ -98,6 +103,66 @@ public class ProPrint {
         proPrint(0,"     "); //use style on cell for 5 spaces before
         printCentered(fullstring,cntPlayersOrCardsHere*3,11); //inWidth = 21 - left spaces - right spaces
         proPrint(0,"     "); //use style on cell for 5 spaces after
+    }
+
+    public static void showPlayerNameLevelAndTax(String txt, int row, int col)
+    {
+
+        int pNum = Integer.valueOf(txt.substring(1));
+
+        changeStyle(MapArray.mapStyle[row][col]);
+        String fullstring = "["+Monopoly.plName[pNum]+"]";
+
+        int br = 0 ; String c = "";
+        int field = getFieldFromRowCol(row, col);
+
+        while (br<Monopoly.bLevel[field])
+        {
+            c +="*"; br++;
+        }
+
+        fullstring += c;
+
+        double sum = 0; // sum from building level
+        sum += (Monopoly.bLevel[field] + 1) * Monopoly.bTaxPL[field] * Monopoly.infGlobal;
+        if (field == 4 || field == 5) sum = sum * Monopoly.infFood;  //food fields
+        if (field == 19) sum = sum * Monopoly.infWater; //Water Company field
+        if (field == 23) sum = sum * Monopoly.infEnergy; //Energy Company field
+
+        fullstring += " "+ (int) sum;
+        proPrint(MapArray.mapStyle[row][col],fullstring);
+    }
+
+    public static int getFieldFromRowCol(int row, int col)
+    {
+        if (row == 4 && col==2) return 0; //START
+        if (row == 4 && col==3) return 1; //FC CSKA
+        if (row == 4 && col==4) return 2; //FC Levski
+        if (row == 4 && col==5) return 3; //Universitat *********************
+        if (row == 4 && col==6) return 4; //Happy B&G
+        if (row == 4 && col==7) return 5; //McDonnalds
+        if (row == 4 && col==8) return 6; //POLICE **************************
+
+        if (row == 8 && col==8) return 7; //str Vitoshka
+        if (row == 12 && col==8) return 8; //CUM
+        if (row == 16 && col==8) return 9; //BANK ***************************
+        if (row == 20 && col==8) return 10; //Grand Hotel
+        if (row == 24 && col==8) return 11; //Inter Continental Hotel
+        if (row == 28 && col==8) return 12; //Borisova Garden ***************
+
+        if (row == 28 && col==7) return 13; //NDK
+        if (row == 28 && col==6) return 14; //Sofia Mall
+        if (row == 28 && col==5) return 15; //Airport
+        if (row == 28 && col==4) return 16; //Chance ***********************
+        if (row == 28 && col==3) return 17; //Hospital *********************
+        if (row == 28 && col==2) return 18; //Prison ***********************
+
+        if (row == 24 && col==2) return 19; //Water Company
+        if (row == 20 && col==2) return 20; //Chaos Group
+        if (row == 16 && col==2) return 21; //Global Services
+        if (row == 12 && col==2) return 22; //Buildings Company
+        if (row == 8 && col==2) return 23; //Energy Company
+        return 0;
     }
 
     public static boolean ifSingleSector(int row, int col)

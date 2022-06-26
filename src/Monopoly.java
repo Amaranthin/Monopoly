@@ -128,7 +128,7 @@ public class Monopoly {
         if (act.equalsIgnoreCase("U")) ;
 
         //Sell something
-        if (act.equalsIgnoreCase("S")) ;
+        if (act.equalsIgnoreCase("S")) sellBuilding();
 
         //Pass
         if (act.equalsIgnoreCase("P"))
@@ -141,6 +141,30 @@ public class Monopoly {
         //MANIPULATION MENU
         if (act.equalsIgnoreCase("M")) showManipulations();
 
+    }
+
+    public static void sellBuilding()
+    {
+        if (plOwnerList[curPlayer][0]>0){
+            System.out.println("Коя от вашите собствености искате да продадете:");
+            for (int ix=1; ix<=plOwnerList[curPlayer][0]; ix++)
+            {
+                System.out.println(ix + ")" + bName[plOwnerList[curPlayer][ix]] + " за " + (int) bCost[plOwnerList[curPlayer][ix]]/2);
+            }
+
+            int nSell=0; //number of chosen building in sorted list
+            while (nSell==0 || nSell>plOwnerList[curPlayer][0]) {
+                System.out.print("Вашият избор е:"); nSell = scn.nextInt();
+            }
+
+            //SELL
+            refreshPlayerMoney(curPlayer, (int) bCost[plOwnerList[curPlayer][nSell]]/2);
+            removeBuildingFromPlayer(nSell, curPlayer, plOwnerList[curPlayer][nSell]);
+        }
+        else
+        {
+            System.out.println("Вие не разполагате с никаква собственост за продажба!");
+        }
     }
 
     public static void showManipulations()
@@ -308,7 +332,7 @@ public class Monopoly {
                     congratsWinner(curPlayer);
                 }
                 else {
-                    addBuildToPlayer(curPlayer, newField);
+                    addBuildingToPlayer(curPlayer, newField);
                     refreshPlayerMoney(curPlayer, -costOfBuild);
                 }
             }
@@ -451,7 +475,7 @@ public class Monopoly {
      }
 
 
-    public static void addBuildToPlayer(int pl, int field)
+    public static void addBuildingToPlayer(int pl, int field)
     {
         int ix = plOwnerList[pl][0]+1;  //index [pl][0] show us number of added items
         plOwnerList[pl][ix] = field;
@@ -474,9 +498,42 @@ public class Monopoly {
         plOwnerList[pl][0]+=1; // rise up counter of player buildings
 
         MapArray.mapStyle[mRow[field]-1][mCol[field]] = pl+32; //Change cell style to player color style
-        MapArray.mapText[mRow[field]-1][mCol[field]] = "["+plName[pl]+"]"; //Will show us ownership in building field
+        MapArray.mapText[mRow[field]-1][mCol[field]] = "%"+pl; //set player like owner with parse symbol $
+        //todo
 
     }
+
+    public static void removeBuildingFromPlayer(int ix, int pl, int field)
+    {
+        //Player Choose Ix as Option in Sell List
+
+        plOwnerList[pl][ix] = 0;  //set IX as 0
+
+        //Sort Array
+
+        //change positions of all items after it. 0 bubble go down
+        for (int i=ix; i<plOwnerList[pl][0]; i++)
+        {
+            if (plOwnerList[pl][i]<plOwnerList[pl][i+1]) //ALWAYS MUST BE TRUE but for every case
+            {   //move deleted item down
+                    int p = plOwnerList[pl][i];
+                    plOwnerList[pl][i] = plOwnerList[pl][i+1];
+                    plOwnerList[pl][i+1] = p;
+            }
+        }
+
+        bOwner[field] = 0; // now as free
+        //todo razkasai eventualnoto monopoli
+        plOwnerList[pl][0]+=-1; // rise up counter of player buildings
+
+        MapArray.mapStyle[mRow[field]-1][mCol[field]] =  MapArray.mapStyle[mRow[field]-2][mCol[field]] ; //Back to original style
+        MapArray.mapText[mRow[field]-1][mCol[field]] = ""; //clear label notice for ownership
+
+        System.out.println("Продажбата премина успешно. Парите са захранени във вашата сметка");
+        //todo
+
+    }
+
 
     public static void setInflationField()
     {
@@ -626,6 +683,8 @@ public class Monopoly {
         mRow[22] = 13; mCol[22]=2; //Buildings Company
         mRow[23] = 9; mCol[23]=2; //Energy Company
     }
+
+
 
     //Colors used in actions
     static String pink = "\u001B[31m", normal = "\u001B[0m";
