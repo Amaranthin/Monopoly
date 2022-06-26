@@ -1,4 +1,5 @@
-public class ProPrintSettings {
+public class ProPrint {
+
 
     //MAP Frames
     static String newLine = "=========================================================================================================================================================";
@@ -25,11 +26,13 @@ public class ProPrintSettings {
                 if (MapArray.mapText[row][col].length()>0)
                 {
                     c = MapArray.mapText[row][col].charAt(0);
-                    if (c=='#') partPrintPlayersOrCards(MapArray.mapText[row][col]);
-                    else if (c=='@') {
+                    if (c=='#') partPrintPlayersOrCards(MapArray.mapText[row][col], row, col );
+                    else if (c=='@')
+                    {
                         String buildName = Monopoly.getBuildFromOwnerList(MapArray.mapText[row][col]);
                         printCentered(buildName, buildName.length(), 21);
                     }
+                    //else if (ifSingleSector(row, col)) printWithSameBackground(row, col); //AirC, WaterC, EnergyC todo
                     else if (row==23 && col==4) printCentered(MapArray.mapText[23][4], MapArray.mapText[0][0].length(), 63);
                     else proPrint(MapArray.mapStyle[row][col], MapArray.mapText[row][col]);
                 }
@@ -41,11 +44,11 @@ public class ProPrintSettings {
         }
     }
 
-    public static void partPrintPlayersOrCards(String txt)
+    public static void partPrintPlayersOrCards(String txt, int row, int col)
     {   //when 2 or more players is in same field we need print them in different style
         String nText = txt.substring(1);
 
-        ProPrintSettings st = new ProPrintSettings();
+        ProPrint st = new ProPrint();
         int cntPlayersOrCardsHere = 0;
 
         String fullstring = "";
@@ -56,40 +59,59 @@ public class ProPrintSettings {
             switch(c)
             {
                 case '1' -> {
-                    ProPrintSettings.changeStyle(MapArray.PLAYER1_3);
-                    fullstring += ProPrintSettings.cText(st,"[1]");
+                    ProPrint.changeStyle(MapArray.PLAYER1_3);
+                    fullstring += ProPrint.cText(st,"[1]");
                     cntPlayersOrCardsHere++;
                 }
                 case '2' -> {
-                    ProPrintSettings.changeStyle(MapArray.PLAYER2_3);
-                    fullstring += ProPrintSettings.cText(st,"[2]");
+                    ProPrint.changeStyle(MapArray.PLAYER2_3);
+                    fullstring += ProPrint.cText(st,"[2]");
                     cntPlayersOrCardsHere++;
                 }
                 case '3' -> {
-                    ProPrintSettings.changeStyle(MapArray.PLAYER3_3);
-                    fullstring += ProPrintSettings.cText(st,"[3]");
+                    ProPrint.changeStyle(MapArray.PLAYER3_3);
+                    fullstring += ProPrint.cText(st,"[3]");
                     cntPlayersOrCardsHere++;
                 }
                 case 'P' -> {
-                    ProPrintSettings.changeStyle(MapArray.GREEN3);
-                    fullstring += ProPrintSettings.cText(st,"[P]");
+                    ProPrint.changeStyle(MapArray.GREEN3);
+                    fullstring += ProPrint.cText(st,"[P]");
                     cntPlayersOrCardsHere++;
                 }
                 case 'H' -> {
-                    ProPrintSettings.changeStyle(MapArray.RED3);
-                    fullstring += ProPrintSettings.cText(st,"[H]");
+                    ProPrint.changeStyle(MapArray.RED3);
+                    fullstring += ProPrint.cText(st,"[H]");
                     cntPlayersOrCardsHere++;
                 }
                 case 'U' -> {
-                    ProPrintSettings.changeStyle(MapArray.YELLOW3);
-                    fullstring += ProPrintSettings.cText(st,"[U]");
+                    ProPrint.changeStyle(MapArray.YELLOW3);
+                    fullstring += ProPrint.cText(st,"[U]");
                     cntPlayersOrCardsHere++;
                 }
             }
         }
 
         //Don't use global styles for this field because each player or card must be in own color
-        printCentered(fullstring,cntPlayersOrCardsHere*3,21);
+        changeStyle(MapArray.mapStyle[row][col]);
+        proPrint(0,"     "); //use style on cell for 5 spaces before
+        printCentered(fullstring,cntPlayersOrCardsHere*3,11); //inWidth = 21 - left spaces - right spaces
+        proPrint(0,"     "); //use style on cell for 5 spaces after
+    }
+
+    public static boolean ifSingleSector(int row, int col)
+    { //todo
+        if (row==8 && col==2) return true;  //Energy Company
+        if (row==24 && col==2) return true; //Water Company
+        if (row==28 && col==5) return true; //Airport
+        return false;
+    }
+
+    public static void printWithSameBackground(int row, int col)
+    { //todo
+        changeStyle(MapArray.mapStyle[row][col]);
+        proPrint(0,"     "); //use style on cell for 5 spaces before
+        printCentered(MapArray.mapText[row][col],MapArray.mapText[row][col].length(),11); //inWidth = 21 - left spaces - right spaces
+        proPrint(0,"     "); //use style on cell for 5 spaces after
     }
 
     public static void printCentered(String text, int txtlen, int inWidth)
@@ -108,20 +130,20 @@ public class ProPrintSettings {
     //cell length, align, maincolor, background color, background symbol, background symbol color
     public static void proPrint(int style, String txt) {
 
-        ProPrintSettings st = new ProPrintSettings();
-        ProPrintSettings.changeStyle(style);
+        ProPrint st = new ProPrint();
+        changeStyle(style);
 
         String res;
         switch (st.align) {
-            case "left" -> res = ProPrintSettings.lText(st, txt);
-            case "center" -> res = ProPrintSettings.cText(st, txt);
-            case "right" -> res = ProPrintSettings.rText(st, txt);
+            case "left" -> res = ProPrint.lText(st, txt);
+            case "center" -> res = ProPrint.cText(st, txt);
+            case "right" -> res = ProPrint.rText(st, txt);
             default -> res = "";
         }
         System.out.print(res);
     }
 
-    public static String cText(ProPrintSettings st, String txt) {
+    public static String cText(ProPrint st, String txt) {
         int n = txt.length();
         if (st.inWeight < n) return "err in cText parameter";
 
@@ -148,7 +170,7 @@ public class ProPrintSettings {
         return resText.toString();
     }
 
-    public static String rText(ProPrintSettings st, String txt) {
+    public static String rText(ProPrint st, String txt) {
         int n = txt.length();
         if (n > st.inWeight) return "err in rText parameters";
 
@@ -164,7 +186,7 @@ public class ProPrintSettings {
         return resText.toString();
     }
 
-    public static String lText(ProPrintSettings st, String txt) {
+    public static String lText(ProPrint st, String txt) {
         int n = txt.length();
         if (n > st.inWeight) return "Err";
 
@@ -216,7 +238,7 @@ public class ProPrintSettings {
 
     public static void changeStyle(int x) {
 
-        ProPrintSettings nst = new ProPrintSettings();
+        ProPrint nst = new ProPrint();
         switch (x) {
             case 1 -> { //BLUE3
                 nst.bgColor = "blue"; nst.mainColor = "black"; nst.frameColor = "black";
@@ -364,6 +386,8 @@ public class ProPrintSettings {
                 nst.bgColor = "black"; nst.mainColor = "green"; nst.frameColor = "yellow";
                 nst.align = "center";  nst.frameSymbol = "*"; nst.inWeight = 63;
             }
+
+            case 0 -> nst.inWeight = 5; //for players and cards we use style 0 after original style
 
         }
 

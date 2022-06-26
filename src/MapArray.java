@@ -92,8 +92,8 @@ public class MapArray {
 
         c = 2; //COLUMN 2
         mapStyle[1][c] = BLUE21; mapText[1][c] = "";
-        mapStyle[2][c] = BLUE21; mapText[2][c] = "+250";
-        mapStyle[3][c] = BLUE21; mapText[3][c] = ">>> бвРав >>>  ";
+        mapStyle[2][c] = BLUE21; mapText[2][c] = "  +250";
+        mapStyle[3][c] = BLUE21; mapText[3][c] = ">>> бвРав >>>";
         mapStyle[4][c] = BLUE21; mapText[4][c] = "";
         mapStyle[5][c] = BLUE21; mapText[5][c] = "";
 

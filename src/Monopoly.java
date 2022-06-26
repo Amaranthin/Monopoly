@@ -10,16 +10,16 @@ public class Monopoly {
         MapArray.initializeMapValues(); //Once
         initializeFieldToRowColValues(); //Once
         setInflationField(); //Once
-
-        MapArray.mapText[10][4] = plName[1];  //Once
-        MapArray.mapText[10][5] = plName[2];
-        MapArray.mapText[10][6] = plName[3];
-
+        setPlayersAlive();
+        showPlayerNames(); //Once in center of MAP
         movePlayersToFields();
-        ProPrintSettings.showMAP();
+
+        MapArray.mapText[4][2] = "зарове: 2x" + diceSizes + "";
+        ProPrint.showMAP();
 
         curPlayer = 1; //Player One To Move
 
+        //GAME
         while (!endGame)
         {
             isPlayerFree = true;
@@ -28,14 +28,20 @@ public class Monopoly {
             checkForPrison(); //if player is on prison and dont have prison card isPlayerFree = false
             if (!isPlayerFree) doActionsFromPrison();
 
-            //MAIN ACTIONS (When player is Free. * Must be after prison actions)
+            //MAIN ACTIONS (When player is Free)
             if (isPlayerFree) doMainActions();
 
             //Prepare player for next move. But when pair happens Go Again = More FUN
-            if (d1!=d2) {curPlayer++; if (curPlayer==4) curPlayer=1;}
+            if (d1!=d2 || !isPlayerAlive[curPlayer])
+            {
+                curPlayer++;
+                if (curPlayer==4) curPlayer=1;
+                if (!isPlayerAlive[curPlayer]) curPlayer++; //if player is not alive
+                if (curPlayer==4) curPlayer=1;
+            }
 
             //After all actions is completed let show the new MAP
-            ProPrintSettings.showMAP();
+            ProPrint.showMAP();
         }
     }
 
@@ -63,28 +69,40 @@ public class Monopoly {
         String txtChooseAction = "";
 
         if (!isPlayerFree) {
-            txtChooseAction += "Играч " + plName[curPlayer] + " изберете действие: " + actMercy + actPay200inPrisonAndRoll;
+            txtChooseAction += "Играч " + plName[curPlayer] + " изберете действие: " + actMercy;
+
+            if (plMoney[curPlayer]> 200) txtChooseAction += actPay200inPrisonAndRoll;
 
             System.out.print(txtChooseAction);
             String act = scn.next();
 
             //Paid Tax
             if (act.equalsIgnoreCase("P")) {
-                Institutions.simplePayToInstitution(curPlayer, 200);
-                System.out.println("Гаранцията ви е платена и вие сте освободен.");
-                System.out.println();
-                isPlayerFree = true;
+                if (plMoney[curPlayer]> 200) {
+                    Institutions.simplePayToInstitution(curPlayer, 200);
+                    System.out.println("Гаранцията ви е платена и вие сте освободен.");
+                    System.out.println();
+                    isPlayerFree = true;
+                }
+                else {
+                    System.out.println("Нямате необходимите пари за да платите гаранцията си!");
+                }
+
             }
 
             //Wait for pair
             if (act.equalsIgnoreCase("M")) {
                 d1 = rollDice();
                 d2 = rollDice();
-                if (d1 == d2) {      //succes
+
+                if (d1 == d2)
+                {   //succes
                     cntPair = 0;    //new beginning
                     System.out.println("Молбите ви докоснаха сърцата на управниците и вие бяхте освободен!");
                     isPlayerFree = true;
-                } else {
+                }
+                else
+                {
                     System.out.println("Никой не ви обърна внимание. " +
                             "Може би трябва да развържете кесията си следващия път");
                 }
@@ -96,8 +114,9 @@ public class Monopoly {
     {
         String txtChooseAction = "";
         txtChooseAction = "Играч " + plName[curPlayer] + " изберете действие: " +
-                actRoll + actUpgrade + actSell + actManipulations; // action1+action2+action3+action3m;
-        if (cntPair==1) txtChooseAction += actPass;
+                actRoll + actUpgrade + actSell + actManipulations;
+
+        if (cntPair==1) txtChooseAction += actPass; //add action prevent from prison
 
         System.out.print(txtChooseAction);
         String act = scn.next();
@@ -127,17 +146,17 @@ public class Monopoly {
     public static void showManipulations()
     {
         System.out.println("Манипулация на пазара:");
-        System.out.println("1) Увеличете цената на Енергията с 10%. Ще ви струва 200лв");
-        System.out.println("2) Увеличете цената на Водата с 10%. Ше ви струва 120лв");
-        System.out.println("3) Увеличете цената на Храните с 10%. Ще ви струва 200лв");
-        System.out.println("4) Занижете стандарта на живот (-50лв за пресичане на старта)." +
+        if (plMoney[curPlayer]>= 200) System.out.println("1) Увеличете цената на Енергията с 10%. Ще ви струва 200лв");
+        if (plMoney[curPlayer]>= 120) System.out.println("2) Увеличете цената на Водата с 10%. Ше ви струва 120лв");
+        if (plMoney[curPlayer]>= 200) System.out.println("3) Увеличете цената на Храните с 10%. Ще ви струва 200лв");
+        if (plMoney[curPlayer]>= 350) System.out.println("4) Занижете стандарта на живот (-50лв за пресичане на старта)." +
                 "Ще ви струва 350лв");
-        System.out.println("5) Подкупете полицията. Отнемат се всички карти за изход от затвора" +
-                "\nи се забраняват до нов подкуп. Ще ви струва 350лв");
-        System.out.println("6) Подкупете полицията. Разрешават се картите за изход от затвора,"+
-                "но не се възтановяват старите такива. Ще ви струва 200лв");
-        System.out.println("7) Увеличете страните на заровете с +1. Ще ви струва 250лв");
-        System.out.println("8) Намалете страните на заровете с -1. Ще ви струва 330лв");
+        if (plMoney[curPlayer]>= 150) System.out.println("5) Подкупете полицията. Отнемат се всички карти за изход от затвора" +
+                "\nи се забраняват до нов подкуп. Ще ви струва 150лв");
+        if (plMoney[curPlayer]>= 100) System.out.println("6) Подкупете полицията. Разрешават се картите за изход от затвора,"+
+                "но не се възтановяват старите такива. Ще ви струва 100лв");
+        if (plMoney[curPlayer]>= 150) System.out.println("7) Увеличете страните на заровете с +1. Ще ви струва 150лв");
+        if (plMoney[curPlayer]>= 250) System.out.println("8) Намалете страните на заровете с -1. Ще ви струва 250лв");
 
         System.out.print("Вашият избор е:");
 
@@ -150,45 +169,65 @@ public class Monopoly {
 
         switch(ch){
             case ("1") -> {
-                infEnergy *= 1.10; setInflationField();
-                Institutions.simplePayToInstitution(curPlayer, 200);
+                if (plMoney[curPlayer]>= 200) {
+                    infEnergy *= 1.10; setInflationField();
+                    Institutions.simplePayToInstitution(curPlayer, 200);
+                }
             }
             case ("2") -> {
-                infWater *= 1.10; setInflationField();
-                Institutions.simplePayToInstitution(curPlayer, 120);
+                if (plMoney[curPlayer]>= 120) {
+                    infWater *= 1.10;
+                    setInflationField();
+                    Institutions.simplePayToInstitution(curPlayer, 120);
+                }
             }
             case ("3") -> {
-                infFood *= 1.10; setInflationField();
-                Institutions.simplePayToInstitution(curPlayer, 200);
+                if (plMoney[curPlayer]>= 200) {
+                    infFood *= 1.10;
+                    setInflationField();
+                    Institutions.simplePayToInstitution(curPlayer, 200);
+                }
             }
             case ("4") -> {
-                crossStartBonus += -50; MapArray.mapText[2][2] = "+" + crossStartBonus;
-                Institutions.simplePayToInstitution(curPlayer, 350);
+                if (plMoney[curPlayer]>= 350) {
+                    crossStartBonus += -50;
+                    MapArray.mapText[2][2] = "+" + crossStartBonus;
+                    Institutions.simplePayToInstitution(curPlayer, 350);
+                }
             }
             case ("5") -> {
-                disabledPrisonCards = true;
-                for (int x=1;x<=3;x++)
-                {
-                    hadPrisonCard[x]=false;
+                if (plMoney[curPlayer]>= 150) {
+                    disabledPrisonCards = true;
+                    for (int x = 1; x <= 3; x++) {
+                        hadPrisonCard[x] = false;
+                    }
+                    Institutions.refreshPlayerCards();
+                    MapArray.mapText[28][2] = "[забранени карти]";
+                    Institutions.simplePayToInstitution(curPlayer, 150);
                 }
-                Institutions.refreshPlayerCards(); MapArray.mapText[28][2] = "[забранени карти]";
-                Institutions.simplePayToInstitution(curPlayer, 350);
             }
             case ("6") -> {
-                disabledPrisonCards = false;
-                Institutions.simplePayToInstitution(curPlayer, 350);
-                MapArray.mapText[28][2] = "[разрешени карти]";
+                if (plMoney[curPlayer]>= 100) {
+                    disabledPrisonCards = false;
+                    Institutions.simplePayToInstitution(curPlayer, 100);
+                    MapArray.mapText[28][2] = "[разрешени карти]";
+                }
             }
             case ("7") -> {
-                diceSizes += 1; //Increase dice size
-                Institutions.simplePayToInstitution(curPlayer, 250);
-                MapArray.mapText[4][2] = "зарове: 2x"+diceSizes;
+                if (plMoney[curPlayer]>= 150) {
+                    diceSizes += 1; //Increase dice size
+                    Institutions.simplePayToInstitution(curPlayer, 150);
+                    MapArray.mapText[4][2] = "зарове: 2x" + diceSizes;
+                }
             }
             case ("8") -> {
+
                 if (diceSizes >2) {
-                    diceSizes += - 1; //Decrease dice size
-                    Institutions.simplePayToInstitution(curPlayer, 330);
-                    MapArray.mapText[4][2] = "зарове: 2x"+diceSizes;
+                    if (plMoney[curPlayer]>= 250) {
+                        diceSizes += -1; //Decrease dice size
+                        Institutions.simplePayToInstitution(curPlayer, 250);
+                        MapArray.mapText[4][2] = "зарове: 2x" + diceSizes;
+                    }
                 }
                 else {
                     Institutions.simplePayToInstitution(curPlayer, 100); //cant manipulate more but 100 tax
@@ -215,7 +254,7 @@ public class Monopoly {
                     notice = true;
                 }
                 Institutions.goPrison(curPlayer);  //When 2 pairs appears > Go Prison!
-                ProPrintSettings.showMAP();
+                ProPrint.showMAP();
                 System.out.printf("Хвърлихте %d+%d! Глоба за превишена скорост! Отивате в затвора", d1, d2);
                 System.out.println();
                 if (notice) System.out.println("Отнета ви е и картата за излизане от затвора");
@@ -242,7 +281,7 @@ public class Monopoly {
         //If player is not in Prison update him field
         plWhere[curPlayer] = newField; movePlayersToFields(); //Prison if (plWhere[curPlayer]!=18)
 
-        ProPrintSettings.showMAP();
+        ProPrint.showMAP();
 
         if (playerCrossStart)
         {
@@ -266,9 +305,7 @@ public class Monopoly {
                 //When this player buy 9 objects he win game!
                 if (plOwnerList[curPlayer][0]==8)
                 {
-                    endGame = true;
-                    MapArray.mapStyle[8][4] = MapArray.CONGRATS63;
-                    MapArray.mapText[8][4] = " ЧЕСТИТО! Играч " + plName[curPlayer]+ " спечели играта! ";
+                    congratsWinner(curPlayer);
                 }
                 else {
                     addBuildToPlayer(curPlayer, newField);
@@ -339,13 +376,15 @@ public class Monopoly {
     public static void letPayTaxToOwner(int curPl, int ownerPl, int field)
     {
         if (plWhere[ownerPl]!=18) {
-            double sum = 0;
-            sum += (bLevel[field] + 1) * bTaxPL[field] * infGlobal;
 
-            if (field == 6) sum = 150; //Card 10 from police > /every other paid 150 to us/
-            if (field == 4 || field == 5) sum = sum * infFood;
-            if (field == 19) sum = sum * infWater;
-            if (field == 23) sum = sum * infEnergy;
+            double sum = 0;
+
+            sum += (bLevel[field] + 1) * bTaxPL[field] * infGlobal; //when tax is from building
+
+            if (field == 6) sum = 150; //Card 10 from Police > /each other paid 150 to us/
+            if (field == 4 || field == 5) sum = sum * infFood;  //food fields
+            if (field == 19) sum = sum * infWater; //Water Company field
+            if (field == 23) sum = sum * infEnergy; //Energy Company field
 
             int isum = (int) sum;
             refreshPlayerMoney(curPl, -isum); //lose money
@@ -355,8 +394,28 @@ public class Monopoly {
                     + isum + " на играч "+ plName[ownerPl]);
         }
         else System.out.println("Играч " + plName[ownerPl] + " е в затвора и не плащате нищо.");
-
     }
+
+    public static void letPayTaxToOwner(int curPl, int ownerPl, String resource)
+    {
+        //PREDEFINITION. 2 usages on this method is only from sector CHANCE
+
+        //No prison check here, because when our position is on sector chance we obviously are free :)
+        double sum = 0;
+
+        if ( resource.equals("energy")) sum = infEnergy*100; //Card 9 from Chance > every one to us
+        if ( resource.equals("water")) sum = infWater*50; //Card 10 from Chance > every one to us
+
+        int isum = (int) sum;
+        refreshPlayerMoney(curPl, -isum); //lose money
+        refreshPlayerMoney(ownerPl, isum); //get money
+
+        System.out.println("Играч "+ plName[curPl]+ " заплати такса "
+                + isum + " на играч "+ plName[ownerPl]);
+    }
+
+
+
 
     public static void updateTextArray(int row, int col, String newText)
     {
@@ -457,6 +516,55 @@ public class Monopoly {
     {
         plMoney[player] += change;
         MapArray.mapText[11][3+player] = String.valueOf(plMoney[player]); //for MAP
+        if (plMoney[player] < 0)
+        {
+            isPlayerAlive[player] = false;
+            clearOwnershipsOnDeathPlayer(player);
+        }
+    }
+
+    public static void clearOwnershipsOnDeathPlayer(int player)
+    {
+        for (int f=1; f<24; f++)
+        {
+            if (bOwner[f]==player)
+            {
+                bOwner[f] = 0;
+                MapArray.mapText[mRow[f]-1][mCol[f]] = ""; //clear labels with player name on buildings
+                MapArray.mapStyle[mRow[f]-1][mCol[f]] =  MapArray.mapStyle[mRow[f]-2][mCol[f]]; //get style from row up
+            }
+
+        }
+
+        plOwnerList[player][0] = 0; //index [0] = count of buildings > become 0
+        for (int ix=1;ix<9;ix++)
+        {
+            plOwnerList[player][ix] = 0; //and all of them too become 0 (as free fields)
+        }
+
+        //check for winner
+        int cntAlivePls = 0; int lastAliveIndex = 0;
+        for (int ix=1;ix<4;ix++)
+        {
+            if (isPlayerAlive[ix])
+            {
+                cntAlivePls++;
+                lastAliveIndex = ix;
+            }
+        }
+
+        if (cntAlivePls == 1)
+        {
+            congratsWinner(lastAliveIndex);
+        }
+
+    }
+
+    public static void congratsWinner(int player)
+    {
+        endGame = true;
+        MapArray.mapStyle[8][4] = MapArray.CONGRATS63;
+        MapArray.mapText[8][4] = " ЧЕСТИТО! Играч " + plName[player]+ " спечели играта! ";
     }
 
     public static int rollDice()  //Just Dice
@@ -473,8 +581,26 @@ public class Monopoly {
         return String.valueOf(perc)+"% ";
     }
 
+    public static void showPlayerNames()
+    {
+        MapArray.mapText[10][4] = plName[1];
+        MapArray.mapText[10][5] = plName[2];
+        MapArray.mapText[10][6] = plName[3];
+    }
+
+    public static void setPlayersAlive()
+    {
+        isPlayerAlive[1] = true;
+        isPlayerAlive[2] = true;
+        isPlayerAlive[3] = true;
+    }
+
     public static void initializeFieldToRowColValues()
     {
+        //mRow is show players moves
+        //mRow -1 shows ownership and upgrade level
+        //mRow -2 shows building name
+
         mRow[0] = 5; mCol[0]=2; //START
         mRow[1] = 5; mCol[1]=3; //FC CSKA
         mRow[2] = 5; mCol[2]=4; //FC Levski
@@ -522,6 +648,9 @@ public class Monopoly {
 
     //Is current Player free or not
     static boolean isPlayerFree;
+
+    //Live or Death players
+    static boolean[] isPlayerAlive = new boolean[4];
 
     //Dices
     static int d1=0, d2=0;

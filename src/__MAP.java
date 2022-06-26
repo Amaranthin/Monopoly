@@ -1,5 +1,5 @@
-public class Map {
-                                                /*
+public class __MAP {
+        /*
     0   СТАРТ
     1   ФК ЦСКА              /Спорт
     2   ФК Левски            /Спорт
@@ -24,9 +24,6 @@ public class Map {
     21  Global Services         /Компании
     22  Building Corporation    /Компании
     23  Енергоснабдяване
-
       */
-
-
 
 }

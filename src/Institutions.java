@@ -49,7 +49,7 @@ public class Institutions
                 simplePayToInstitution(player, (int) dinner);
 
                 int x = rnd.nextInt(10)+1;
-                if (x>2) { //test todo 5
+                if (x>4) {
                     //If she is happy you got freePrisonCard
                     getPrisonExitCardWithNotice(player, "Получавате карта за изход от затвора");
                     refreshPlayerCards();
@@ -70,7 +70,7 @@ public class Institutions
                 printn("Разкрити са измами на вашите конкуренти. Получавате от всеки друг по 150 лв");
                 for (int x=1; x<=3; x++)
                 {
-                    if (x!=player) Monopoly.letPayTaxToOwner(x, player, 6); //field is nosense here
+                    if (x!=player) Monopoly.letPayTaxToOwner(x, player, 6);
                 }
             }
             default -> printn("Logic Error in Police");
@@ -90,53 +90,53 @@ public class Institutions
                 //Increase Global Inflation
                 double up = rnd.nextDouble() * 0.08 + 0.02; //2-10%
                 Monopoly.infGlobal = Monopoly.infGlobal * (1 + up);
-                System.out.println("Базовата инфлация се покачва до "
+                printn("Базовата инфлация се покачва до "
                         + Monopoly.convertInflationToPercent(Monopoly.infGlobal));
             }
             case 2 -> {
                 //Increase Energy Inflation
                 double up = rnd.nextDouble() * 0.15 + 0.05; //5-20%
                 Monopoly.infEnergy = Monopoly.infEnergy * (1 + up);
-                System.out.println("Енергията поскъпва до "
+                printn("Енергията поскъпва до "
                         + Monopoly.convertInflationToPercent(Monopoly.infEnergy));
             }
             case 3 -> {
                 //Increase Water Inflation
                 double up = rnd.nextDouble() * 0.15 + 0.05; //5-20%
                 Monopoly.infWater = Monopoly.infWater * (1 + up);
-                System.out.println("Водата поскъпва до "
+                printn("Водата поскъпва до "
                         + Monopoly.convertInflationToPercent(Monopoly.infWater));
             }
             case 4 -> {
                 //Increase Food Inflation
                 double up = rnd.nextDouble() * 0.15 + 0.05; //5-20%
                 Monopoly.infFood = Monopoly.infFood * (1 + up);
-                System.out.println("Храната поскъпва до "
+                printn("Храната поскъпва до "
                         + Monopoly.convertInflationToPercent(Monopoly.infFood));
             }
             case 5 -> {
                 //Toto Milionare
                 int sum = (rnd.nextInt(20) +1)*100; //100-2000
                 Monopoly.refreshPlayerMoney(player, sum);
-                System.out.println("Печелите от тотото " + sum);
+                printn("Печелите от тотото " + sum);
             }
             case 6 -> {
                 //Inheritance
                 int sum = (rnd.nextInt(10) +1)*100; //100-1000
                 Monopoly.refreshPlayerMoney(player, sum);
-                System.out.println("Получавате наследство " + sum);
+                printn("Получавате наследство " + sum);
             }
             case 7 -> {
                 //newCountryStandart
                 int newStandart = rnd.nextInt(3)+1;
                 Monopoly.crossStartBonus += newStandart*50;
-                System.out.println("Покачване на стандарта на живот. Всяко пресичане ще носи +" + Monopoly.crossStartBonus);
+                printn("Покачване на стандарта на живот. Всяко пресичане ще носи +" + Monopoly.crossStartBonus);
                 MapArray.mapText[2][2] = "+" + Monopoly.crossStartBonus;
             }
             case 8 -> {
                 //Bank mistake
                 Monopoly.plMoney[player] -= 100;
-                System.out.println("Банкова грешка. Губите 100");
+                printn("Банкова грешка. Губите 100");
                 Monopoly.refreshPlayerMoney(player, -100);
             }
 
@@ -144,16 +144,16 @@ public class Institutions
                 //Build taxes
                 double taxPerBuild = 15*Monopoly.infGlobal;
                 int n = Monopoly.plOwnerList[player][0]; int finalsum =  n* (int) taxPerBuild;
-                System.out.println("За всяка от вашите сгради заплащате по " + taxPerBuild);
-                System.out.println("Обща сума на данък сгради " + n + "x" + (int) taxPerBuild + "=" + finalsum);
+                printn("За всяка от вашите сгради заплащате по " + taxPerBuild);
+                printn("Обща сума на данък сгради " + n + "x" + (int) taxPerBuild + "=" + finalsum);
                 Monopoly.refreshPlayerMoney(player, - finalsum);
             }
             case 10 -> {
                 //Build insurances
                 double insPerBuild = 25*Monopoly.infGlobal;
                 int n = Monopoly.plOwnerList[player][0]; int finalsum =  (int) (insPerBuild*n);
-                System.out.println("Затраховате всяка от вашите сгради.");
-                System.out.println("Обща сума на застраховката " + n + "x" + insPerBuild + "=" + finalsum);
+                printn("Затраховате всяка от вашите сгради.");
+                printn("Обща сума на застраховката " + n + "x" + insPerBuild + "=" + finalsum);
                 Monopoly.refreshPlayerMoney(player, - finalsum);
             }
         }
@@ -161,6 +161,74 @@ public class Institutions
         //Refresh inflation
         Monopoly.setInflationField();
     }
+
+    public static void goChance(int player){
+        Monopoly.plWhere[player]=16;
+        Monopoly.movePlayersToFields();
+
+        Random rnd = new Random();
+        int situation = rnd.nextInt(10)+1;
+
+        switch (situation) {
+            case 1 -> {
+                printn("Печелите карта за излизане от затвора!");
+                Monopoly.hadPrisonCard[player] = true;
+            }
+            case 2 -> {
+                print("Печелите карта за безплатно влизане в болницата");
+                Monopoly.hadHospitalCard[player] = true;
+            }
+            case 3 -> {
+                printn("Честито! Предстои ви сватба, но това ще ви струва 300лв!");
+                simplePayToInstitution(player, 300);
+            }
+            case 4 -> {
+                printn("Реставрирате щети от градушка. Ще ви коства 150лв!");
+                simplePayToInstitution(player, 150);
+            }
+            case 5 -> {
+                printn("Компанията ви е обект на DDoS атаки. Губите 120лв.");
+                simplePayToInstitution(player, 120);
+            }
+            case 6 -> {
+                printn("Пожар в един от складовете ви. Губите 150лв.");
+                simplePayToInstitution(player, 150);
+            }
+            case 7 -> {
+                printn("Печелите конкурс за млад предприемач. Награда +150лв и карта за безплатно обучение в Университета");
+                simplePayToInstitution(player, -150);
+                Monopoly.hadUniversityCard[player] = true;
+            }
+            case 8 -> {
+                printn("Патентовате нов продукт. Приходи +150лв и карта за безплатно обучение в Университета");
+                simplePayToInstitution(player, -150);
+                Monopoly.hadUniversityCard[player] = true;
+            }
+            case 9 -> {
+                printn("Ако сте собственик на енергийната компания всеки друг ви заплаща " + Monopoly.infEnergy*100);
+                if (Monopoly.bOwner[23]==player)
+                {
+                    for (int x = 1; x <= 3; x++)
+                    {
+                        if (x != player) Monopoly.letPayTaxToOwner(x, player, "energy");
+                    }
+                }
+            }
+            case 10 -> {
+                printn("Ако сте собственик на водоснабдяване всеки друг ви заплаща " + Monopoly.infWater*50);
+                if (Monopoly.bOwner[19]==player)
+                {
+                    for (int x = 1; x <= 3; x++)
+                    {
+                        if (x != player) Monopoly.letPayTaxToOwner(x, player, "water");
+                    }
+                }
+            }
+        }
+
+        Institutions.refreshPlayerCards();
+    }
+
 
     public static void  refreshPlayerCards()
     {
@@ -244,19 +312,6 @@ public class Institutions
         simplePayToInstitution(player, - tax); //Increase player money
 
         System.out.println("Семеен пикник. Получавате тонус за работа, което ви носи +" + tax + " лв");
-    }
-
-    public static void goChance(int player){
-        Monopoly.plWhere[player]=16;
-        Monopoly.movePlayersToFields();
-
-        Random rnd = new Random();
-        int x = rnd.nextInt(10)+1;
-        if (x<3) {Monopoly.hadHospitalCard[player] = true;  Monopoly.hadUniversityCard[player] = true;}
-        if (x>5) {Monopoly.hadHospitalCard[player] = true;}
-        if (x==4||x==5) {Monopoly.hadUniversityCard[player] = true;}
-        Monopoly.hadPrisonCard[player] = true;
-        Institutions.refreshPlayerCards();
     }
 
     public static void goAirport(int player)

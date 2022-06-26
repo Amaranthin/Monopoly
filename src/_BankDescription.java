@@ -1,5 +1,7 @@
 public class _BankDescription {
-             /*
+                    /*
+    КАРТИ:
+
     1	Глобална инфлация (5-10%) random X                  infGlobal
     2	Поскъпване на енергията (5-20%) random X            infEnergy
     3	Поскъпване на водата (5-20%) random X               infWater
@@ -10,5 +12,6 @@ public class _BankDescription {
     8	Банкова грешка -100лв
     9	Данък сгради. За всеки ваш имот level * 15лв
     10	"Плащате годишни застраховки. За всеки ваш имот level * 25лв."
-             */
+
+                    */
 }
