@@ -351,6 +351,7 @@ public class Institutions
                 " в размер на " + sum);
     }
 
+    //Sorry about that but... the long codes make me nervous :D
     public static void printn(String txt)
     {
         System.out.println(txt);

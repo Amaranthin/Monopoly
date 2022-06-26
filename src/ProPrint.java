@@ -38,8 +38,10 @@ public class ProPrint {
                 }
                 else proPrint(MapArray.mapStyle[row][col], MapArray.mapText[row][col]);
             }
-            if (row==5 || row==25) {br(); System.out.println(newLine2);}
-            else br();
+
+            if (row==5 || row==25) {System.out.println(); System.out.println(newLine2);}
+            else System.out.println();
+
             if (row==30)  {System.out.println(newLine);}
         }
     }
@@ -391,11 +393,6 @@ public class ProPrint {
 
         }
 
-    }
-
-    public static void br()
-    {
-        System.out.println();
     }
 
 }
