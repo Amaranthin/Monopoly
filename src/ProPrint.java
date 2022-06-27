@@ -36,7 +36,6 @@ public class ProPrint {
                     {
                         showPlayerNameLevelAndTax(MapArray.mapText[row][col], row, col);
                     }
-
                     //else if (ifSingleSector(row, col)) printWithSameBackground(row, col); //AirC, WaterC, EnergyC todo
                     else if (row==23 && col==4) printCentered(MapArray.mapText[23][4], MapArray.mapText[0][0].length(), 63);
                     else proPrint(MapArray.mapStyle[row][col], MapArray.mapText[row][col]);
@@ -455,9 +454,6 @@ public class ProPrint {
             }
 
             case 0 -> nst.inWeight = 5; //for players and cards we use style 0 after original style
-
         }
-
     }
-
 }

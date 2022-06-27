@@ -25,5 +25,4 @@ public class __MAP {
     22  Building Corporation    /Компании
     23  Енергоснабдяване
       */
-
 }

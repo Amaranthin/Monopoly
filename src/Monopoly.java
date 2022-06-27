@@ -11,7 +11,7 @@ public class Monopoly {
         initializeFieldToRowColValues(); //Once
         setInflationField(); //Once
         setPlayersAlive(); //By default all are alive. But in inputPlayerNames method some from them may be mark as empty slot
-        // inputPlayerNames();  Working!
+        inputPlayerNames();
         showPlayerNames(); //Once in center of MAP
         movePlayersToFields();
 
@@ -582,9 +582,6 @@ public class Monopoly {
             }
         }
 
-        bOwner[field] = 0; // now as free
-        plOwnerList[pl][0]+=-1; // rise up counter of player buildings
-
         //Erase possible Monopoly
         int sector = bMPSplit[field]; boolean isErase = false;
         for (int f=1; f<24; f++)
@@ -596,6 +593,9 @@ public class Monopoly {
                 bLevel[f]=0; // erase all upgrades on each field on this sector
             }
         }
+
+        bOwner[field] = 0; // now as free
+        plOwnerList[pl][0]+=-1; // rise up counter of player buildings
 
         if (isErase) System.out.println("Съжаляваме, но вие разрушихте вашия монопол в този сектор!");
 
@@ -842,7 +842,7 @@ public class Monopoly {
     public static boolean endGame = false;
 
     // === PARAMETERS IN THIS FRAME CAN BE MANIPULATED FROM PLAYERS AGAINST MONEY ==========================
-    public static int crossStartBonus = 250;
+    public static int crossStartBonus = 200;
     public static int diceSizes = 3;
     public static boolean disabledPrisonCards = false; //disable using of prison cards
 
@@ -896,8 +896,5 @@ public class Monopoly {
 
     //Monopoly Sectors
     public static String[] mpSector = new String[] {"", "Спорт", "Хранене", "Мода", "Хотели", "Развлечения", "Бизнес"};
-
-
-
 
 }

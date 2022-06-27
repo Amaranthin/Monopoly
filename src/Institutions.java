@@ -4,7 +4,7 @@ public class Institutions
 {
     public static void simplePayToInstitution(int curPl, int tax)
     {
-        Monopoly.refreshPlayerMoney(curPl, - tax);
+        Monopoly.refreshPlayerMoney(curPl, - tax);   //equal method in this class
     }
 
     public static void goPolice(int player)
@@ -70,7 +70,7 @@ public class Institutions
                 printn("Разкрити са измами на вашите конкуренти. Получавате от всеки друг по 150 лв");
                 for (int x=1; x<=3; x++)
                 {
-                    if (x!=player) Monopoly.letPayTaxToOwner(x, player, 6);
+                    if (x!=player && Monopoly.isPlayerAlive[x]) Monopoly.letPayTaxToOwner(x, player, 6);
                 }
             }
             default -> printn("Logic Error in Police");
@@ -210,7 +210,7 @@ public class Institutions
                 {
                     for (int x = 1; x <= 3; x++)
                     {
-                        if (x != player) Monopoly.letPayTaxToOwner(x, player, "energy");
+                        if (x != player && Monopoly.isPlayerAlive[x]) Monopoly.letPayTaxToOwner(x, player, "energy");
                     }
                 }
             }
@@ -220,7 +220,7 @@ public class Institutions
                 {
                     for (int x = 1; x <= 3; x++)
                     {
-                        if (x != player) Monopoly.letPayTaxToOwner(x, player, "water");
+                        if (x != player && Monopoly.isPlayerAlive[x]) Monopoly.letPayTaxToOwner(x, player, "water");
                     }
                 }
             }
