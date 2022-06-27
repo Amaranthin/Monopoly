@@ -153,7 +153,7 @@ public class Institutions
                 double insPerBuild = 25*Monopoly.infGlobal;
                 int n = Monopoly.plOwnerList[player][0]; int finalsum =  (int) (insPerBuild*n);
                 printn("Затраховате всяка от вашите сгради.");
-                printn("Обща сума на застраховката " + n + "x" + insPerBuild + "=" + finalsum);
+                printn("Обща сума на застраховката " + n + "x" + (int) insPerBuild + "=" + finalsum);
                 Monopoly.refreshPlayerMoney(player, - finalsum);
             }
         }

@@ -352,8 +352,8 @@ public class MapArray {
         mapStyle[25][c] = BLACK21; mapText[25][c] = "";
 
         mapStyle[26][c] = GREEN21; mapText[26][c] = "";
-        mapStyle[27][c] = GREEN21; mapText[27][c] = "  ¡Œ–»—Œ¬¿ (12)";
-        mapStyle[28][c] = GREEN21; mapText[28][c] = "  √–¿ƒ»Õ¿";
+        mapStyle[27][c] = GREEN21; mapText[27][c] = "¡Œ–»—Œ¬¿ (12)";
+        mapStyle[28][c] = GREEN21; mapText[28][c] = "√–¿ƒ»Õ¿";
         mapStyle[29][c] = GREEN21; mapText[29][c] = "";
         mapStyle[30][c] = GREEN21; mapText[30][c] = "";
 
