@@ -4,14 +4,14 @@ import java.util.Scanner;
 
 public class Monopoly {
 
-    // ============================= MONOPOLY =============================
+    // ================ MONOPOLY =================== (Martin Katev * Open source) =====================
     public static void main(String[] args) {
 
         MapArray.initializeMapValues(); //Once
         initializeFieldToRowColValues(); //Once
         setInflationField(); //Once
-        setPlayersAlive(); //By default all are alive. But in inputPlayerNames method some from them may be mark as empty slot
-        inputPlayerNames();
+        setPlayersAlive();
+        inputPlayerNames(); //Had option to use empty slot
         showPlayerNames(); //Once in center of MAP
         movePlayersToFields();
 
