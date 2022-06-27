@@ -229,7 +229,6 @@ public class Institutions
         Institutions.refreshPlayerCards();
     }
 
-
     public static void  refreshPlayerCards()
     {
         for (int x=1; x<=3; x++)

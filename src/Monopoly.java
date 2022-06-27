@@ -11,7 +11,7 @@ public class Monopoly {
         initializeFieldToRowColValues(); //Once
         setInflationField(); //Once
         setPlayersAlive(); //By default all are alive. But in inputPlayerNames method some from them may be mark as empty slot
-        inputPlayerNames();
+        // inputPlayerNames();  Working!
         showPlayerNames(); //Once in center of MAP
         movePlayersToFields();
 
@@ -345,9 +345,8 @@ public class Monopoly {
     {
         int newField = (plWhere[curPlayer] + d1  + d2) % 24;
 
-        //Jump Prison   --- must be before showMAP --
+        //Let Jump Prison   --- Only Police had power to put player in prison!
         if (newField == 18) newField=19; //let go around Prison
-
 
         //When cross start. We need new variable because bonus notice must be after showing MAP
         boolean playerCrossStart = false;
@@ -369,47 +368,13 @@ public class Monopoly {
 
         System.out.printf("Хвърлихте %d + %d ",d1,d2);
 
-        //Buy Actions on New Field
-        String txt = " Играч " + plName[curPlayer] + " попада на поле " + bName[newField]; //show notice
-        System.out.println(txt);
-        int costOfBuild = getCostOfBuild(newField);
-        if (bOwner[newField]==0 && plMoney[curPlayer]> costOfBuild){
-            System.out.print(bName[newField] + " струва " + costOfBuild + " Желаете ли да я закупите (y/n)" );
-            String act2 = scn.next();
-            //System.out.println(); //todo maybe clear
+        //=== GO TO ================================================
 
-            if (act2.equalsIgnoreCase("Y"))
-            {
-                //When this player buy 9 objects he win game!
-                if (plOwnerList[curPlayer][0]==8)
-                {
-                    congratsWinner(curPlayer);
-                }
-                else {
-                    addBuildingToPlayer(curPlayer, newField);
-                    refreshPlayerMoney(curPlayer, -costOfBuild);
-                }
-            }
-        }
+        //Free Field
+        goToFreeField(newField);
 
-        //When player put in other player field
-        if (bOwner[newField]>0 && bOwner[newField]<4 && bOwner[newField]!=curPlayer)
-        {
-            if (!(newField==23||newField==19||newField==15)) {
-                //let pay tax to owner
-                letPayTaxToOwner(curPlayer, bOwner[newField], newField);
-            }
-            else {
-                //Airport is bought
-                if (newField == 15) Institutions.goAirport(curPlayer);
-                //Water Company is bought
-                if (newField == 19) Institutions.goWaterCompany(curPlayer);
-                //Energy Company is bought
-                if (newField == 23) Institutions.goEnergyCompany(curPlayer);
-            }
-        }
-
-        //GO TO
+        //Enemy Field
+        goToEnemyField(newField);
 
         //University
         if (newField == 3 ) Institutions.goUniversity(curPlayer);
@@ -448,6 +413,52 @@ public class Monopoly {
             if (isSomePlayerHere) txt = "#" + txt; // this text must be formatet by parts; 1-3 players HERE
 
             updateTextArray(row, col, txt);
+        }
+    }
+
+    public static void goToFreeField(int newField)
+    {
+        //Buy Actions on New Field
+        String txt = " Играч " + plName[curPlayer] + " попада на поле " + bName[newField]; //show notice
+        System.out.println(txt);
+        int costOfBuild = getCostOfBuild(newField);
+        if (bOwner[newField]==0 && plMoney[curPlayer]> costOfBuild){
+            System.out.print(bName[newField] + " струва " + costOfBuild + " Желаете ли да я закупите (y/n)" );
+            String act2 = scn.next();
+            //System.out.println(); //todo maybe clear
+
+            if (act2.equalsIgnoreCase("Y"))
+            {
+                //When this player buy 9 objects he win game!
+                if (plOwnerList[curPlayer][0]==8)
+                {
+                    congratsWinner(curPlayer);
+                }
+                else {
+                    addBuildingToPlayer(curPlayer, newField);
+                    refreshPlayerMoney(curPlayer, -costOfBuild);
+                }
+            }
+        }
+    }
+
+    public static void goToEnemyField(int newField)
+    {
+        //When player put in other player field
+        if (bOwner[newField]>0 && bOwner[newField]<4 && bOwner[newField]!=curPlayer)
+        {
+            if (!(newField==23||newField==19||newField==15)) {
+                //let pay tax to owner
+                letPayTaxToOwner(curPlayer, bOwner[newField], newField);
+            }
+            else {
+                //Airport is bought
+                if (newField == 15) Institutions.goAirport(curPlayer);
+                //Water Company is bought
+                if (newField == 19) Institutions.goWaterCompany(curPlayer);
+                //Energy Company is bought
+                if (newField == 23) Institutions.goEnergyCompany(curPlayer);
+            }
         }
     }
 
